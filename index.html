@@ -8,12 +8,9 @@
 </head>
 <body onload="onLoad()">
     <div class="nav">
-        <a class="btn" href="#newStore">New Store</a>
-        <a class="btn" href="#newPerson">New Person</a>
-        <a class="btn" onclick="createNewFloor('random')" href="#" >New Random Store</a>
-        <a class="btn" onclick="createNewPerson('random')" href="#">New Random Person</a>
-
-        <p id="money"></p>
+        <p id="brand">Tower Life</p>
+        <p id="money" ></p>
+        <button onclick="openNav()" class="btn">&#9776</button>
     </div>
     <div id="tower">
 
@@ -88,8 +85,18 @@
             <input id="lastName" type="text" placeholder="Last Name">
             <textarea id="bio" placeholder="Bio"></textarea>
 
-            <a onclick="createNewPerson('custom')" href="#modal-close">Add new Person</a>
+            <a onclick="createNewPerson('custom')" href="#modal-close" class="btn">Add new Person</a>
 
+        </div>
+    </div>
+
+    <div id="myNav" class="overlay">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <div class="overlay-content">
+            <a href="#newStore">New Store</a>
+            <a href="#newPerson">New Person</a>
+            <a onclick="createNewFloor('random')" href="#" >New Random Store</a>
+            <a onclick="createNewPerson('random')" href="#">New Random Person</a>
         </div>
     </div>
 
