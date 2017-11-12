@@ -34,12 +34,13 @@ body{
     display: flex;
     align-content: center;
     justify-content: space-around;
-    box-shadow: 10px 10px 100px 10px;
+    box-shadow: 5px 5px 100px 5px;
 }
 
 .btn {
     color: black;
-
+    font-size: 40px;
+    line-height: 50px;
 }
 
 #money{
