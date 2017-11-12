@@ -1,10 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tiny Tower</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="styles.css" media="all">
+
+    <link rel="manifest" href="manifest.json">
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Tower Life">
+    <meta name="apple-mobile-web-app-title" content="Tower Life">
+    <meta name="theme-color" content="#008000">
+    <meta name="msapplication-navbutton-color" content="#008000">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="msapplication-starturl" content="/index.html">
+
 </head>
 <body onload="onLoad()">
     <div class="nav">
@@ -100,6 +113,14 @@
         </div>
     </div>
 
+    <script>
+        if('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(function() {
+                    console.log('Service Worker Registered');
+                });
+        }
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
