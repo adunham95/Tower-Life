@@ -1,0 +1,30 @@
+body{
+    margin: 0;
+}
+
+.tower {
+    display: flex;
+    flex-direction: column;
+}
+
+.floor{
+    display: flex;
+}
+
+.elevator {
+    width: 100px;
+    height: 100px;
+    background: grey;
+    border: solid black 1px;
+    text-align: center;
+}
+
+.room{
+    flex-grow: 2;
+    border: solid black 1px;
+}
+
+.nav{
+    display: flex;
+    padding: 10px;
+}

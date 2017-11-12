@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiny Tower</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body onload="onLoad()">
+    <div class="nav">
+        <input id="name" type="text" placeholder="Name">
+
+        <select id="type">
+            <option value="Store">Store</option>
+            <option value="Apartment">Apartment</option>
+        </select>
+
+        <select id="category">
+            <option value="Car Dealership">Car Dealership</option>
+            <option value="Grocery Store">Grocery Store</option>
+            <option value="Jewellery Store">Jewellery Store</option>
+            <option value="Flower Store">Flower Store</option>
+            <option value="Beauty Salon">Beauty Salon</option>
+            <option value="Butcher">Butcher</option>
+            <option value="Toy Store">Toy Store</option>
+            <option value="Music Store">Music Store</option>
+            <option value="Clothes Store">Clothes Store</option>
+            <option value="Book Store">Book Store</option>
+            <option value="Tech Store">Tech Store</option>
+            <option value="Sports Store">Sports Store</option>
+            <option value="E-Store">E-Store</option>
+            <option value="Dollar Store">Dollar Store</option>
+            <option value="Brand Store">Brand Store</option>
+        </select>
+
+        <select id="color">
+            <option value="#fff">Select a color</option>
+            <option value="#F44336" style="background-color: #F44336">Red</option>
+            <option value="#E91E63" style="background-color: #E91E63">Pink</option>
+            <option value="#9C27B0" style="background-color: #9C27B0">Purple</option>
+            <option value="#673AB7" style="background-color: #673AB7">Deep Purple</option>
+            <option value="#3F51B5" style="background-color: #3F51B5">Indigo</option>
+            <option value="#2196F3" style="background-color: #2196F3">Blue</option>
+            <option value="#03A9F4" style="background-color: #03A9F4">Light Blue</option>
+            <option value="#00BCD4" style="background-color: #00BCD4">Cyan</option>
+            <option value="#009688" style="background-color: #009688">Teal</option>
+            <option value="#4CAF50" style="background-color: #4CAF50">Green</option>
+            <option value="#8BC34A" style="background-color: #8BC34A">Light Green</option>
+            <option value="#CDDC39" style="background-color: #CDDC39">Lime</option>
+            <option value="#FFEB3B" style="background-color: #FFEB3B">Yellow</option>
+            <option value="#FFC107" style="background-color: #FFC107">Amber</option>
+            <option value="#FF9800" style="background-color: #FF9800">Orange</option>
+            <option value="#FF5722" style="background-color: #FF5722">Deep Orange</option>
+            <option value="#795548" style="background-color: #795548">Brown</option>
+            <option value="#9E9E9E" style="background-color: #9E9E9E">Grey</option>
+            <option value="#000000" style="background-color: #000000">Black</option>
+            <option value="#FFFFFF" style="background-color: #FFFFFF">White</option>
+        </select>
+
+        <button onclick="createNewFloor()" type="submit">Create New</button>
+
+        <p id="money"></p>
+    </div>
+    <div id="tower">
+
+
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
