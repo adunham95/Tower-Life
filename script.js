@@ -269,3 +269,18 @@ function stockRoom(index) {
 
     document.getElementById(tower[index].id).innerHTML = tower[index].name + " " + tower[index].stockRoom.count;
 }
+
+function reset() {
+    console.log("RESET");
+    tower = [{
+        id:generateID(),
+        name:"Lobby",
+        type:"Store",
+        color:["#DC143C","#1E90FF"] //Primary Secondary
+    }];
+    money = 5000;
+    document.getElementById("money").innerText = '$'+money;
+    citizen = [];
+    newTower();
+    reload();
+}
