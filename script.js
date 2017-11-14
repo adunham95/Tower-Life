@@ -276,6 +276,9 @@ function stockRoom(index) {
     let purchased = wallet(-500);
 
     if(purchased === true){
+        document.getElementById(tower[index].id).innerHTML = `<span>${tower[index].name}</span> <span>Stocked</span>`;
+
+
         //Stocks the room
         tower[index].stockRoom.count = 1000;
         // console.log(tower[index]);
@@ -284,10 +287,8 @@ function stockRoom(index) {
         //Stores the room has been stocked
         window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
 
-        //Takes away the cost of merchandise
-        wallet(-500);
-
-        document.getElementById(tower[index].id).innerHTML = `<span>${tower[index].name}</span> <span>Stocked</span>`;
+        // //Takes away the cost of merchandise
+        // wallet(-500);
     }
 }
 
@@ -307,12 +308,14 @@ function reset() {
 }
 
 function wallet(amount) {
-    money = parseInt(money) + amount;
-    if(money < 0){
+    let newMoney = parseInt(money) + amount;
+    console.log(newMoney + ":" + money);
+    if(newMoney < 0){
         displayError("Not enough money");
         return false
     }
     else{
+        money = newMoney;
         // console.log("Updated wallet to " + money);
         window.localStorage.setItem("Money", money);
         document.getElementById("money").innerText = `$${money}`;
@@ -321,5 +324,10 @@ function wallet(amount) {
 }
 
 function displayError(message) {
+    document.getElementById("error").style.display = "inherit";
+    document.getElementById("error").innerHTML = `<p>${message}</p>`;
 
+    setTimeout(function(){
+        document.getElementById("error").style.display = "none"
+        }, 3000);
 }
