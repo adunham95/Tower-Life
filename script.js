@@ -251,7 +251,7 @@ function displayFloor(i) {
     }
     else {
         divRoom.innerHTML = `<span>${tower[i].name}</span>`;
-        supplyRoom.innerText = "Supply Room";
+        supplyRoom.innerText = "Stock floor: $500";
         supplyRoom.addEventListener ("click", function () {
             stockRoom(i);
         });
