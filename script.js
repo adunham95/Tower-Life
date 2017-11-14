@@ -60,7 +60,7 @@ function reload() {
     // console.log("Current: " + currentTime);
     for(let i = 0; i < tower.length; i++) {
         if( i!==0){
-            console.log("Expire: " + new Date(tower[i].stockRoom.expires));
+            // console.log("Expire: " + new Date(tower[i].stockRoom.expires));
             if(new Date(tower[i].stockRoom.expires) <= currentTime && tower[i].stockRoom.expires !== 0){
                 // console.log("Expired");
                 tower[i].stockRoom.expires = 0;
