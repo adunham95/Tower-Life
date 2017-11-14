@@ -53,14 +53,15 @@ function onLoad() {
 
 
 function reload() {
+    // console.log("Reloaded");
     document.getElementById("tower").innerHTML = '';
     let currentTime = new Date();
+    // console.log(tower);
     // console.log("Current: " + currentTime);
-    // console.log("Reloaded");
     for(let i = 0; i < tower.length; i++) {
         if( i!==0){
-            // console.log("Expire: " + new Date(tower[i].stockRoom.expires));
-            if(new Date(tower[i].stockRoom.expires) <= currentTime && tower[i].stockRoom.expires > 0){
+            console.log("Expire: " + new Date(tower[i].stockRoom.expires));
+            if(new Date(tower[i].stockRoom.expires) <= currentTime && tower[i].stockRoom.expires !== 0){
                 // console.log("Expired");
                 tower[i].stockRoom.expires = 0;
                 tower[i].stockRoom.count = 0;
@@ -87,7 +88,7 @@ function Store(name, category, colors) {
     this.type = "Store";
     this.storeCategory = category;
     this.color= colors;
-    this.stockRoom = {item: "Item", count: 0, timeToSell: 30, expires: 0};
+    this.stockRoom = {item: "Item", count: 0, expires: 0};
 }
 
 function Apartment(name, floor, colors) {
