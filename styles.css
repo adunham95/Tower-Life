@@ -18,12 +18,33 @@ body{
     height: 100px;
     background: grey;
     border: solid black 1px;
-    text-align: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
 }
 
 .room{
     flex-grow: 2;
     border: solid black 1px;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.room button{
+    background: transparent;
+    color: white;
+    border: 1px white solid;
+    padding: 10px;
+    border-radius: 50px;
+}
+
+#lobby{
+    color: white;
+    font-size: 50pt;
+    justify-content: center;
 }
 
 .nav{

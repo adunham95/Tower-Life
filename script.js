@@ -20,14 +20,16 @@ function onLoad() {
 
 
     if(id === null){
-        //Adds the lobby
-        tower.push({
-            id:generateID(),
-            name:"Lobby",
-            type:"Store",
-            color:["#DC143C","#1E90FF"] //Primary Secondary
-        });
-        newTower()
+       reset();
+
+        // //Adds the lobby
+        // tower.push({
+        //     id:"lobby",
+        //     name:"Lobby",
+        //     type:"Store",
+        //     color:["#DC143C","#1E90FF"] //Primary Secondary
+        // });
+        // newTower()
 
     }
     else {
@@ -47,12 +49,13 @@ function onLoad() {
     //     displayFloor(i);
     // }
 
+    // reload();
+
     window.setInterval(function(){
         reload()
     }, 500);
 
 }
-
 
 function reload() {
     // console.log("Reloaded");
@@ -195,7 +198,6 @@ function createNewPerson() {
 
 }
 
-
 function getRandom(type) {
     if(type === "color"){
         let colors = ['#f7556e', '#b3187d', '#d44d47', '#7fafea', '#aa78db', '#8b6715', '#3a8f96', '#7b35b0', '#98d70c', '#d0793e'];
@@ -214,7 +216,6 @@ function getRandom(type) {
         return categories[Math.floor(Math.random() * categories.length)]
     }
 }
-
 
 function displayFloor(i) {
     // console.log(tower[i]);
@@ -242,10 +243,13 @@ function displayFloor(i) {
         divRoom.innerHTML = tower[i].name;
     }
     else if(tower[i].stockRoom.count >= 1000){
-        divRoom.innerHTML = `<span>${tower[i].name}</span> <span>Stocked</span>`;
+        divRoom.innerHTML = `<span>${tower[i].name}</span>`;
+        supplyRoom.innerText = "Stocking...";
+        supplyRoom.disabled = true;
+        divRoom.appendChild(supplyRoom);
     }
     else {
-        divRoom.innerHTML = `<span>${tower[i].name}</span> <span>Unstocked</span>`;
+        divRoom.innerHTML = `<span>${tower[i].name}</span>`;
         supplyRoom.innerText = "Supply Room";
         supplyRoom.addEventListener ("click", function () {
             stockRoom(i);
@@ -278,8 +282,7 @@ function stockRoom(index) {
     let purchased = wallet(-500);
 
     if(purchased === true){
-        document.getElementById(tower[index].id).innerHTML = `<span>${tower[index].name}</span> <span>Stocked</span>`;
-
+        // document.getElementById(tower[index].id).innerHTML = `<span>${tower[index].name}</span>`;
 
         //Stocks the room
         tower[index].stockRoom.count = 1000;
@@ -298,7 +301,7 @@ function reset() {
     // console.log("RESET");
     // Creates the lobby
     tower = [{
-        id:generateID(),
+        id:"lobby",
         name:"Lobby",
         type:"Store",
         color:["#DC143C","#1E90FF"] //Primary Secondary
