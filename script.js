@@ -70,9 +70,7 @@ function reload() {
                 window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
 
                 //Takes away the cost of merchandise
-                money = parseInt(money) + 750;
-                window.localStorage.setItem("Money", money);
-                document.getElementById("money").innerText = `$${money}`;
+                wallet(750);
 
             }
         }
@@ -164,9 +162,7 @@ function createNewFloor(randomness) {
     displayFloor(floor);
 
     //Takes the money from the uses account to purchase the new floor
-    money -= (floor * 1000);
-    window.localStorage.setItem("Money", money);
-    document.getElementById("money").innerText = '$'+money;
+    wallet(-(floor * 1000));
 }
 
 function createNewPerson() {
@@ -282,9 +278,7 @@ function stockRoom(index) {
     window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
 
     //Takes away the cost of merchandise
-    money -= 500;
-    window.localStorage.setItem("Money", money);
-    document.getElementById("money").innerText = '$'+money;
+    wallet(-500);
 
     document.getElementById(tower[index].id).innerHTML = `<span>${tower[index].name}</span> <span>Stocked</span>`;
 }
@@ -305,5 +299,12 @@ function reset() {
 }
 
 function wallet(amount) {
+    money = parseInt(money) + amount;
+    // console.log("Updated wallet to " + money);
+    window.localStorage.setItem("Money", money);
+    document.getElementById("money").innerText = `$${money}`;
+}
+
+function displayError() {
 
 }
