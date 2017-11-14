@@ -23,7 +23,6 @@ function onLoad() {
             id:generateID(),
             name:"Lobby",
             type:"Store",
-            floor:0,
             color:["#DC143C","#1E90FF"] //Primary Secondary
         });
         newTower()
@@ -43,26 +42,38 @@ function onLoad() {
     citizen = JSON.parse(window.localStorage.getItem("Tenates"));
 
     for(let i = 0; i < tower.length; i++){
-       displayFloor(i)
+        displayFloor(i);
+    }
+
+    window.setInterval(function(){
+        reload()
+    }, 10000);
+
+}
+
+
+function reload() {
+    document.getElementById("tower").innerHTML = '';
+    console.log("Reloaded");
+    for(let i = 0; i < tower.length; i++) {
+        displayFloor(i);
+        if( i!==0){
+            if(tower[i].stockRoom.expires >=0){
+                tower[i].stockRoom.expires -= 10
+            }
+        }
     }
 }
 
-function Store(name, category, floor, colors) {
+function Store(name, category, colors) {
     //Creates a new store in the tower
 
     this.id = generateID();
     this.name = name;
     this.type = "Store";
     this.storeCategory = category;
-    this.floor = floor;
     this.color= colors;
-    this.stockRoom = [];
-    this.stockFloor = function (item, count, i) {
-        this.stockRoom[i] = {"Item": item, "Count": count}
-    };
-    this.changeFloor = function (newFloorNumber) {
-        this.floor = newFloorNumber;
-    }
+    this.stockRoom = {item: "Item", count: 0, timeToSell: 30, expires: 0};
 }
 
 function Apartment(name, floor, colors) {
@@ -124,10 +135,10 @@ function createNewFloor(randomness) {
 
     //If Store or apartment
     if (type === "Store"){
-        newFloor = new Store(name, category, floor, color);
+        newFloor = new Store(name, category, color);
     }
     else {
-        newFloor = new Apartment(name, floor, color);
+        newFloor = new Apartment(name,  color);
     }
 
     console.log(newFloor);
@@ -188,20 +199,22 @@ function getRandom(type) {
     }
 }
 
+
 function displayFloor(i) {
-    // console.log(tower[i]);
+    console.log(tower[i]);
 
     //Creates the elements
     let targetElement = document.getElementById("tower");
     let divFloor = document.createElement("div");
     let divElevator = document.createElement("div");
     let divRoom = document.createElement("div");
-    // let supplyRoom = document.createElement("button");
+    let supplyRoom = document.createElement("button");
 
     //Sets the classes for the elements
     divFloor.className = "floor";
     divElevator.className = "elevator";
     divRoom.className = "room";
+    divRoom.id = tower[i].id;
 
     //Sets the background color of the room
     divRoom.style = "background: " + tower[i].color[0];
@@ -209,14 +222,24 @@ function displayFloor(i) {
     //Add the floor number to the elevator
     divElevator.innerHTML = "<h1>" + i + "</h1>";
     //Displays the room name in the room
-    divRoom.innerHTML = tower[i].name;
-    //Adds text to supply room
-    // supplyRoom.innerText = "Supply Room";
+    if(i === 0){
+        divRoom.innerHTML = tower[i].name;
+    }
+    else if(tower[i].stockRoom.count >= 1000){
+        divRoom.innerHTML = `<span>${tower[i].name}</span> <span>${tower[i].stockRoom.count}</span> <span>${tower[i].stockRoom.expires}</span>`;
+    }
+    else {
+        divRoom.innerHTML = `<span>${tower[i].name}</span> <span>${tower[i].stockRoom.count}</span>`;
+        supplyRoom.innerText = "Supply Room";
+        supplyRoom.addEventListener ("click", function () {
+            stockRoom(i);
+        });
+        divRoom.appendChild(supplyRoom);
+    }
 
     //Binders
     divFloor.appendChild(divElevator);
     divFloor.appendChild(divRoom);
-    // divRoom.appendChild(supplyRoom);
 
     targetElement.appendChild(divFloor);
 }
@@ -227,4 +250,37 @@ function openNav() {
 
 function closeNav() {
     document.getElementById("myNav").style.height = "0%";
+}
+
+function stockRoom(index) {
+
+    //Stocks the room
+    tower[index].stockRoom.count = 1000;
+    console.log(tower[index]);
+    tower[index].stockRoom.expires = 60;
+
+    //Stores the room has been stocked
+    window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
+
+    //Takes away the cost of merchandise
+    money -= 500;
+    window.localStorage.setItem("Money", money);
+    document.getElementById("money").innerText = '$'+money;
+
+    document.getElementById(tower[index].id).innerHTML = tower[index].name + " " + tower[index].stockRoom.count;
+}
+
+function reset() {
+    console.log("RESET");
+    tower = [{
+        id:generateID(),
+        name:"Lobby",
+        type:"Store",
+        color:["#DC143C","#1E90FF"] //Primary Secondary
+    }];
+    money = 5000;
+    document.getElementById("money").innerText = '$'+money;
+    citizen = [];
+    newTower();
+    reload();
 }

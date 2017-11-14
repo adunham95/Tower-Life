@@ -1,4 +1,4 @@
-let cacheName = 'hello-world-page';
+let cacheName = 'towerlife-0.1.1';
 let filesToCache = [
     '/',
     '/index.html',
@@ -14,13 +14,29 @@ self.addEventListener('install', function(e) {
         })
     );
 });
-self.addEventListener('activate',  event => {
-    event.waitUntil(self.clients.claim());
+self.addEventListener('activate', function(e) {
+    e.waitUntil(caches.keys()
+        .then(function(keyList) {
+            return Promise.all(keyList.map(function(key) {
+                if (key !== cacheName)
+                    return caches.delete(key);
+            }));
+        }));
+    return self.clients.claim();
 });
-self.addEventListener('fetch', event => {
-    event.respondWith(
-        caches.match(event.request, {ignoreSearch:true}).then(response => {
-            return response || fetch(event.request);
+self.addEventListener('fetch', function(e) {
+    e.respondWith(caches.match(e.request)
+        .then(function(response) {
+            return response || fetch(e.request)
+                .then(function (resp){
+                    return caches.open(cacheName)
+                        .then(function(cache){
+                            cache.put(e.request, resp.clone());
+                            return resp;
+                        })
+                }).catch(function(event){
+                    console.log('Error fetching data!');
+                })
         })
     );
 });
