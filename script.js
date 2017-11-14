@@ -60,6 +60,7 @@ function onLoad() {
 function reload() {
     // console.log("Reloaded");
     document.getElementById("tower").innerHTML = '';
+    document.getElementById("nextTower").innerHTML = "Next floor costs: $" + (tower.length * 1000);
     let currentTime = new Date();
     // console.log(tower);
     // console.log("Current: " + currentTime);
@@ -338,7 +339,7 @@ function wallet(amount) {
 
 function displayError(message) {
     //Displays the banner
-    document.getElementById("error").style.display = "inherit";
+    document.getElementById("error").style.display = "flex";
     //Displays the message in the banner
     document.getElementById("error").innerHTML = `<p>${message}</p>`;
 

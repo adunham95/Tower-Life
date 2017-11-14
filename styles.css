@@ -4,9 +4,17 @@ body{
 }
 
 #tower {
-    margin-top: 50px;
+    /*margin-top: 70px;*/
     display: flex;
     flex-direction: column-reverse;
+}
+
+#nextTower{
+    width: 100%;
+    margin-top: 50px;
+    height: 20px;
+    text-align: center;
+    color: white;
 }
 
 .floor{
@@ -57,16 +65,18 @@ body{
     align-content: center;
     justify-content: space-around;
     /*box-shadow: 5px 5px 100px 5px;*/
+    border-bottom: white solid 1px;
 }
 
 #error {
-    position: fixed;
-    top: 50px;
+    /*position: fixed;*/
     height: 50px;
     background: darkred;
     color: white;
     width: 100%;
     display: none;
+    justify-content: center;
+    align-items: center;
 }
 
 .btn {
@@ -199,4 +209,8 @@ a {
     font-size: 20px;
     text-decoration: none;
     padding: 20px;
+}
+
+#color option{
+    color: white;
 }
