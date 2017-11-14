@@ -31,7 +31,7 @@ function onLoad() {
     else {
         //Gets the tower from local storage and sets it to the tower length
         tower = JSON.parse(window.localStorage.getItem("TowerFloors"));
-        console.log(tower);
+        // console.log(tower);
     }
 
     //Displays the amount of the money the user has
@@ -41,27 +41,41 @@ function onLoad() {
     //Gets the tenants
     citizen = JSON.parse(window.localStorage.getItem("Tenates"));
 
-    for(let i = 0; i < tower.length; i++){
-        displayFloor(i);
-    }
+    // for(let i = 0; i < tower.length; i++){
+    //     displayFloor(i);
+    // }
 
     window.setInterval(function(){
         reload()
-    }, 10000);
+    }, 500);
 
 }
 
 
 function reload() {
     document.getElementById("tower").innerHTML = '';
-    console.log("Reloaded");
+    let currentTime = new Date();
+    // console.log("Current: " + currentTime);
+    // console.log("Reloaded");
     for(let i = 0; i < tower.length; i++) {
-        displayFloor(i);
         if( i!==0){
-            if(tower[i].stockRoom.expires >=0){
-                tower[i].stockRoom.expires -= 10
+            // console.log("Expire: " + new Date(tower[i].stockRoom.expires));
+            if(new Date(tower[i].stockRoom.expires) <= currentTime && tower[i].stockRoom.expires > 0){
+                // console.log("Expired");
+                tower[i].stockRoom.expires = 0;
+                tower[i].stockRoom.count = 0;
+
+                //Stores the room has been stocked
+                window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
+
+                //Takes away the cost of merchandise
+                money = parseInt(money) + 750;
+                window.localStorage.setItem("Money", money);
+                document.getElementById("money").innerText = `$${money}`;
+
             }
         }
+        displayFloor(i);
     }
 }
 
@@ -141,10 +155,10 @@ function createNewFloor(randomness) {
         newFloor = new Apartment(name,  color);
     }
 
-    console.log(newFloor);
+    // console.log(newFloor);
 
     tower.push(newFloor);
-    console.log(tower);
+    // console.log(tower);
     window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
     displayFloor(floor);
 
@@ -161,12 +175,12 @@ function createNewPerson() {
 
     // If the name is blank it will be the category value
     if(document.getElementById("firstName").value==='' && document.getElementById("lastName").value===''){
-        console.log("Getting random");
+        // console.log("Getting random");
         name = [getRandom("first"),getRandom("last")];
     }
     else {
-        console.log("Given");
-        console.log(document.getElementById("firstName").value);
+        // console.log("Given");
+        // console.log(document.getElementById("firstName").value);
         name = [document.getElementById("firstName").value, document.getElementById("lastName").value];
     }
 
@@ -174,7 +188,7 @@ function createNewPerson() {
     // console.log(newPerson);
 
     citizen.push(newPerson);
-    console.log(citizen);
+    // console.log(citizen);
     window.localStorage.setItem("Tenates", JSON.stringify(citizen));
 
 }
@@ -201,7 +215,7 @@ function getRandom(type) {
 
 
 function displayFloor(i) {
-    console.log(tower[i]);
+    // console.log(tower[i]);
 
     //Creates the elements
     let targetElement = document.getElementById("tower");
@@ -226,10 +240,10 @@ function displayFloor(i) {
         divRoom.innerHTML = tower[i].name;
     }
     else if(tower[i].stockRoom.count >= 1000){
-        divRoom.innerHTML = `<span>${tower[i].name}</span> <span>${tower[i].stockRoom.count}</span> <span>${tower[i].stockRoom.expires}</span>`;
+        divRoom.innerHTML = `<span>${tower[i].name}</span> <span>Stocked</span>`;
     }
     else {
-        divRoom.innerHTML = `<span>${tower[i].name}</span> <span>${tower[i].stockRoom.count}</span>`;
+        divRoom.innerHTML = `<span>${tower[i].name}</span> <span>Unstocked</span>`;
         supplyRoom.innerText = "Supply Room";
         supplyRoom.addEventListener ("click", function () {
             stockRoom(i);
@@ -254,10 +268,14 @@ function closeNav() {
 
 function stockRoom(index) {
 
+    let timeInMinutes = 1;
+    let currentTime = Date.parse(new Date());
+    let deadline = new Date(currentTime + timeInMinutes*60*1000);
+
     //Stocks the room
     tower[index].stockRoom.count = 1000;
-    console.log(tower[index]);
-    tower[index].stockRoom.expires = 60;
+    // console.log(tower[index]);
+    tower[index].stockRoom.expires = deadline;
 
     //Stores the room has been stocked
     window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
@@ -267,11 +285,11 @@ function stockRoom(index) {
     window.localStorage.setItem("Money", money);
     document.getElementById("money").innerText = '$'+money;
 
-    document.getElementById(tower[index].id).innerHTML = tower[index].name + " " + tower[index].stockRoom.count;
+    document.getElementById(tower[index].id).innerHTML = `<span>${tower[i].name}</span> <span>Stocked</span>`;
 }
 
 function reset() {
-    console.log("RESET");
+    // console.log("RESET");
     tower = [{
         id:generateID(),
         name:"Lobby",
@@ -283,4 +301,8 @@ function reset() {
     citizen = [];
     newTower();
     reload();
+}
+
+function wallet(amount) {
+
 }
