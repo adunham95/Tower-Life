@@ -285,7 +285,7 @@ function stockRoom(index) {
     window.localStorage.setItem("Money", money);
     document.getElementById("money").innerText = '$'+money;
 
-    document.getElementById(tower[index].id).innerHTML = `<span>${tower[i].name}</span> <span>Stocked</span>`;
+    document.getElementById(tower[index].id).innerHTML = `<span>${tower[index].name}</span> <span>Stocked</span>`;
 }
 
 function reset() {
