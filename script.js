@@ -12,20 +12,24 @@ function newTower() {
 
 }
 
+window.onload = onLoad();
+
 function onLoad() {
     //Gets the tower ID
     let id = window.localStorage.getItem("TowerID");
 
 
     if(id === null){
-        //Adds the lobby
-        tower.push({
-            id:generateID(),
-            name:"Lobby",
-            type:"Store",
-            color:["#DC143C","#1E90FF"] //Primary Secondary
-        });
-        newTower()
+       reset();
+
+        // //Adds the lobby
+        // tower.push({
+        //     id:"lobby",
+        //     name:"Lobby",
+        //     type:"Store",
+        //     color:["#DC143C","#1E90FF"] //Primary Secondary
+        // });
+        // newTower()
 
     }
     else {
@@ -45,12 +49,13 @@ function onLoad() {
     //     displayFloor(i);
     // }
 
+    // reload();
+
     window.setInterval(function(){
         reload()
     }, 500);
 
 }
-
 
 function reload() {
     // console.log("Reloaded");
@@ -193,7 +198,6 @@ function createNewPerson() {
 
 }
 
-
 function getRandom(type) {
     if(type === "color"){
         let colors = ['#f7556e', '#b3187d', '#d44d47', '#7fafea', '#aa78db', '#8b6715', '#3a8f96', '#7b35b0', '#98d70c', '#d0793e'];
@@ -212,7 +216,6 @@ function getRandom(type) {
         return categories[Math.floor(Math.random() * categories.length)]
     }
 }
-
 
 function displayFloor(i) {
     // console.log(tower[i]);
@@ -240,10 +243,13 @@ function displayFloor(i) {
         divRoom.innerHTML = tower[i].name;
     }
     else if(tower[i].stockRoom.count >= 1000){
-        divRoom.innerHTML = `<span>${tower[i].name}</span> <span>Stocked</span>`;
+        divRoom.innerHTML = `<span>${tower[i].name}</span>`;
+        supplyRoom.innerText = "Stocking...";
+        supplyRoom.disabled = true;
+        divRoom.appendChild(supplyRoom);
     }
     else {
-        divRoom.innerHTML = `<span>${tower[i].name}</span> <span>Unstocked</span>`;
+        divRoom.innerHTML = `<span>${tower[i].name}</span>`;
         supplyRoom.innerText = "Supply Room";
         supplyRoom.addEventListener ("click", function () {
             stockRoom(i);
@@ -276,6 +282,8 @@ function stockRoom(index) {
     let purchased = wallet(-500);
 
     if(purchased === true){
+        // document.getElementById(tower[index].id).innerHTML = `<span>${tower[index].name}</span>`;
+
         //Stocks the room
         tower[index].stockRoom.count = 1000;
         // console.log(tower[index]);
@@ -284,21 +292,21 @@ function stockRoom(index) {
         //Stores the room has been stocked
         window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
 
-        //Takes away the cost of merchandise
-        wallet(-500);
-
-        document.getElementById(tower[index].id).innerHTML = `<span>${tower[index].name}</span> <span>Stocked</span>`;
+        // //Takes away the cost of merchandise
+        // wallet(-500);
     }
 }
 
 function reset() {
     // console.log("RESET");
+    // Creates the lobby
     tower = [{
-        id:generateID(),
+        id:"lobby",
         name:"Lobby",
         type:"Store",
         color:["#DC143C","#1E90FF"] //Primary Secondary
     }];
+    //Resets the money to $5000
     money = 5000;
     document.getElementById("money").innerText = '$'+money;
     citizen = [];
@@ -307,19 +315,35 @@ function reset() {
 }
 
 function wallet(amount) {
-    money = parseInt(money) + amount;
-    if(money < 0){
+    //Creates a temp value for the money amount
+    let newMoney = parseInt(money) + amount;
+    // console.log(newMoney + ":" + money);
+    //Sees is you have enough money to purchase the item
+    if(newMoney < 0){
         displayError("Not enough money");
         return false
     }
     else{
+        //If the user has enough money the money is deducted fom there account
+        money = newMoney;
         // console.log("Updated wallet to " + money);
+
+        //Save the amount of money the user has in local storage
         window.localStorage.setItem("Money", money);
+        //Displays that the amount of money on the screen
         document.getElementById("money").innerText = `$${money}`;
         return true
     }
 }
 
 function displayError(message) {
+    //Displays the banner
+    document.getElementById("error").style.display = "inherit";
+    //Displays the message in the banner
+    document.getElementById("error").innerHTML = `<p>${message}</p>`;
 
+    //Hides the banner after 3 seconds
+    setTimeout(function(){
+        document.getElementById("error").style.display = "none"
+        }, 3000);
 }
