@@ -12,6 +12,8 @@ function newTower() {
 
 }
 
+window.onload = onLoad();
+
 function onLoad() {
     //Gets the tower ID
     let id = window.localStorage.getItem("TowerID");
@@ -294,12 +296,14 @@ function stockRoom(index) {
 
 function reset() {
     // console.log("RESET");
+    // Creates the lobby
     tower = [{
         id:generateID(),
         name:"Lobby",
         type:"Store",
         color:["#DC143C","#1E90FF"] //Primary Secondary
     }];
+    //Resets the money to $5000
     money = 5000;
     document.getElementById("money").innerText = '$'+money;
     citizen = [];
@@ -308,25 +312,34 @@ function reset() {
 }
 
 function wallet(amount) {
+    //Creates a temp value for the money amount
     let newMoney = parseInt(money) + amount;
-    console.log(newMoney + ":" + money);
+    // console.log(newMoney + ":" + money);
+    //Sees is you have enough money to purchase the item
     if(newMoney < 0){
         displayError("Not enough money");
         return false
     }
     else{
+        //If the user has enough money the money is deducted fom there account
         money = newMoney;
         // console.log("Updated wallet to " + money);
+
+        //Save the amount of money the user has in local storage
         window.localStorage.setItem("Money", money);
+        //Displays that the amount of money on the screen
         document.getElementById("money").innerText = `$${money}`;
         return true
     }
 }
 
 function displayError(message) {
+    //Displays the banner
     document.getElementById("error").style.display = "inherit";
+    //Displays the message in the banner
     document.getElementById("error").innerHTML = `<p>${message}</p>`;
 
+    //Hides the banner after 3 seconds
     setTimeout(function(){
         document.getElementById("error").style.display = "none"
         }, 3000);
