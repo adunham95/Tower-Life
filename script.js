@@ -84,7 +84,7 @@ function reload() {
     }
 }
 
-function Store(name, category, colors) {
+function Store(name, category, colors, multiplier) {
     //Creates a new store in the tower
 
     this.id = generateID();
@@ -92,7 +92,7 @@ function Store(name, category, colors) {
     this.type = "Store";
     this.storeCategory = category;
     this.color= colors;
-    this.stockRoom = {item: "Item", count: 0, expires: 0};
+    this.stockRoom = {item: "Item", count: 0, expires: 0, multiplier: multiplier};
 }
 
 function Apartment(name, floor, colors) {
@@ -154,7 +154,7 @@ function createNewFloor(randomness) {
 
     //If Store or apartment
     if (type === "Store"){
-        newFloor = new Store(name, category, color);
+        newFloor = new Store(name, category, color, 1 + (parseInt(floor)/10 ));
     }
     else {
         newFloor = new Apartment(name,  color);
@@ -275,9 +275,11 @@ function closeNav() {
 
 function stockRoom(index) {
 
-    let timeInMinutes = 1;
+    let timeInMinutes = tower[index].stockRoom.multiplier || 1;
     let currentTime = Date.parse(new Date());
     let deadline = new Date(currentTime + timeInMinutes*60*1000);
+    // console.log(timeInMinutes*60*1000);
+    // console.log(timeInMinutes);
 
     //Takes away the cost of merchandise
     let purchased = wallet(-500);
@@ -292,9 +294,6 @@ function stockRoom(index) {
 
         //Stores the room has been stocked
         window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
-
-        // //Takes away the cost of merchandise
-        // wallet(-500);
     }
 }
 
