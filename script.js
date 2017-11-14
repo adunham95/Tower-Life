@@ -69,10 +69,8 @@ function reload() {
                 //Stores the room has been stocked
                 window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
 
-                //Takes away the cost of merchandise
-                money = parseInt(money) + 750;
-                window.localStorage.setItem("Money", money);
-                document.getElementById("money").innerText = `$${money}`;
+                //Adds the cost of purchased merchandise
+                wallet(750);
 
             }
         }
@@ -158,15 +156,16 @@ function createNewFloor(randomness) {
 
     // console.log(newFloor);
 
-    tower.push(newFloor);
-    // console.log(tower);
-    window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
-    displayFloor(floor);
 
     //Takes the money from the uses account to purchase the new floor
-    money -= (floor * 1000);
-    window.localStorage.setItem("Money", money);
-    document.getElementById("money").innerText = '$'+money;
+    let purchased = wallet(-(floor * 1000));
+
+    if(purchased === true){
+        tower.push(newFloor);
+        // console.log(tower);
+        window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
+        displayFloor(floor);
+    }
 }
 
 function createNewPerson() {
@@ -273,20 +272,23 @@ function stockRoom(index) {
     let currentTime = Date.parse(new Date());
     let deadline = new Date(currentTime + timeInMinutes*60*1000);
 
-    //Stocks the room
-    tower[index].stockRoom.count = 1000;
-    // console.log(tower[index]);
-    tower[index].stockRoom.expires = deadline;
-
-    //Stores the room has been stocked
-    window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
-
     //Takes away the cost of merchandise
-    money -= 500;
-    window.localStorage.setItem("Money", money);
-    document.getElementById("money").innerText = '$'+money;
+    let purchased = wallet(-500);
 
-    document.getElementById(tower[index].id).innerHTML = `<span>${tower[index].name}</span> <span>Stocked</span>`;
+    if(purchased === true){
+        //Stocks the room
+        tower[index].stockRoom.count = 1000;
+        // console.log(tower[index]);
+        tower[index].stockRoom.expires = deadline;
+
+        //Stores the room has been stocked
+        window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
+
+        //Takes away the cost of merchandise
+        wallet(-500);
+
+        document.getElementById(tower[index].id).innerHTML = `<span>${tower[index].name}</span> <span>Stocked</span>`;
+    }
 }
 
 function reset() {
@@ -305,5 +307,19 @@ function reset() {
 }
 
 function wallet(amount) {
+    money = parseInt(money) + amount;
+    if(money < 0){
+        displayError("Not enough money");
+        return false
+    }
+    else{
+        // console.log("Updated wallet to " + money);
+        window.localStorage.setItem("Money", money);
+        document.getElementById("money").innerText = `$${money}`;
+        return true
+    }
+}
+
+function displayError(message) {
 
 }
