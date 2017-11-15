@@ -60,7 +60,7 @@ function onLoad() {
 function reload() {
     // console.log("Reloaded");
     document.getElementById("tower").innerHTML = '';
-    document.getElementById("nextTower").innerHTML = "Next floor costs: $" + (tower.length * 1000);
+    document.getElementById("nextTower").innerHTML = "Next floor costs: $" + ( (tower.length + (tower.length/10)) * 1000);
     let currentTime = new Date();
     // console.log(tower);
     // console.log("Current: " + currentTime);
@@ -76,7 +76,9 @@ function reload() {
                 window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
 
                 //Adds the cost of purchased merchandise
-                wallet(750);
+                let purchasedMerch = (750 * multiplier(i) );
+                // console.log(purchasedMerch);
+                wallet(purchasedMerch);
 
             }
         }
@@ -251,7 +253,7 @@ function displayFloor(i) {
     }
     else {
         divRoom.innerHTML = `<span>${tower[i].name}</span>`;
-        supplyRoom.innerText = "Stock floor: $500";
+        supplyRoom.innerText = `Stock floor: $${(multiplier(i) * 500)}`;
         supplyRoom.addEventListener ("click", function () {
             stockRoom(i);
         });
@@ -282,7 +284,7 @@ function stockRoom(index) {
     // console.log(timeInMinutes);
 
     //Takes away the cost of merchandise
-    let purchased = wallet(-500);
+    let purchased = wallet(-(500 * multiplier(index)));
 
     if(purchased === true){
         // document.getElementById(tower[index].id).innerHTML = `<span>${tower[index].name}</span>`;
@@ -317,7 +319,7 @@ function reset() {
 function wallet(amount) {
     //Creates a temp value for the money amount
     let newMoney = parseInt(money) + amount;
-    // console.log(newMoney + ":" + money);
+    console.log(amount);
     //Sees is you have enough money to purchase the item
     if(newMoney < 0){
         displayError("Not enough money");
@@ -346,4 +348,15 @@ function displayError(message) {
     setTimeout(function(){
         document.getElementById("error").style.display = "none"
         }, 3000);
+}
+
+function multiplier(i) {
+    if(i === 0){
+    }
+    else if(tower[i].stockRoom.multiplier === undefined){
+        return 1
+    }
+    else {
+        return tower[i].stockRoom.multiplier
+    }
 }
