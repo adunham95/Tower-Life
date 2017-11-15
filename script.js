@@ -164,7 +164,7 @@ function createNewFloor(randomness) {
     }
 
     //If the name is blank it will be the category value
-    if(name === 'Store Name'){
+    if(name === 'Store Name' || name === ''){
         name = category;
     }
 
@@ -252,7 +252,7 @@ function displayFloor(i) {
     let supplyRoom = document.createElement("button");
     let info = document.createElement("button");
 
-    //Sets the ids classes for the elements
+    // //Sets the ids classes for the elements
     supplyRoom.id = tower[i].id + "stock";
     divFloor.className = "floor";
     divElevator.className = "elevator";
@@ -266,24 +266,41 @@ function displayFloor(i) {
 
     //Add the floor number to the elevator
     divElevator.innerHTML = "<h1>" + i + "</h1>";
+
+    info.addEventListener("click", function () {
+        toggleNav()
+    });
+
     //Displays the room name in the room
     if(i === 0){
         divRoom.innerHTML = tower[i].name;
     }
     else if(tower[i].stockRoom.count >= 1000){
-        divRoom.innerHTML = `<div>${tower[i].name}</div>`;
-        supplyRoom.innerText = "Stocking...";
-        supplyRoom.disabled = true;
-        divRoom.appendChild(supplyRoom);
-        // divRoom.appendChild(info);
+        divRoom.innerHTML = `
+            <div class="storeFront">
+                <div>${tower[i].name}</div>
+                <button id="${tower[i].id}stock" disabled>Stocking...</button>
+                <button onclick="toggleNav('${tower[i].id}SR')" class="info">i</button>
+            </div>
+            <div class="stockRoom" id="${tower[i].id}StockRoom">
+                <div class="stockRoom" id="${tower[i].id}SR">
+                <input id="${tower[i].id}Name" type="text" value="${tower[i].name}" class="stockBtn">
+                <a onclick="updateFloor(${i})" href="#" class="update stockBtn">Update Store</a>
+                <a onclick="deleteFloor(${i})" href="#" class="delete stockBtn">Delete Store</a>
+            </div>`
     }
     else {
-        divRoom.innerHTML = `<div>${tower[i].name}</div>`;
-        supplyRoom.innerText = `Stock floor: $${(multiplier(i) * 250)}`;
-        supplyRoom.addEventListener ("click", function () {
-            stockRoom(i);
-        });
-        divRoom.appendChild(supplyRoom);
+        divRoom.innerHTML = `
+            <div class="storeFront">
+                <div>${tower[i].name}</div>
+                <button id="${tower[i].id}stock" onclick="stockRoom(${i});">Stock floor: $${(multiplier(i) * 250)}</button>
+                <button onclick="toggleNav('${tower[i].id}SR')" class="info">i</button>
+            </div>
+            <div class="stockRoom" id="${tower[i].id}SR">
+                <input id="${tower[i].id}Name" type="text" value="${tower[i].name}" class="stockBtn">
+                <a onclick="updateFloor(${i})" href="#" class="update stockBtn">Update Store</a>
+                <a onclick="deleteFloor(${i})" href="#" class="delete stockBtn">Delete Store</a>
+            </div>`;
     }
 
     //Binders
@@ -382,4 +399,32 @@ function multiplier(i, base) {
     else {
         return tower[i].stockRoom.multiplier
     }
+}
+
+function updateFloor(i) {
+    let newName = document.getElementById(tower[i].id + "Name").value;
+    tower[i].name = newName;
+    //Stores new name
+    window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
+    //Rebuilds the tower
+    document.getElementById("tower").innerHTML = '';
+    for(let i = 0; i < tower.length; i++) {
+        displayFloor(i);
+    }
+    // console.log("Name updated to: " + newName);
+    toggleNav(tower[i].id + 'SR')
+}
+
+function deleteFloor(i) {
+    // console.log(tower[i].id + ' deleted');
+    tower = tower.filter(item => item !== tower[i]);
+    //Stores new name
+    window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
+    //Rebuilds the tower
+    document.getElementById("tower").innerHTML = '';
+    for(let i = 0; i < tower.length; i++) {
+        displayFloor(i);
+    }
+    //Displays the cost of the next floor since the height has changed
+    document.getElementById("nextTower").innerHTML = "Next floor costs: $" + ( (tower.length + (tower.length/10)) * 1000);
 }
