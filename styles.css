@@ -49,6 +49,12 @@ body{
     border: 1px white solid;
     padding: 10px;
     border-radius: 50px;
+    transition: box-shadow 1s;
+}
+
+.room button:hover{
+    box-shadow: 0px 1px 50px 1px;
+    text-shadow: 0px 1px 25px;
 }
 
 #lobby{
@@ -60,14 +66,68 @@ body{
 .nav{
     position: fixed;
     top: 0;
-    height: 50px;
     background: green;
     width: 100%;
     display: flex;
+    flex-direction: column;
+    border-bottom: white solid 1px;
+    box-shadow: 1px 1px 1000px 1px;
+}
+
+#navTop{
+    display: flex;
+    flex-direction: row;
     align-content: center;
     justify-content: space-around;
-    /*box-shadow: 5px 5px 100px 5px;*/
-    border-bottom: white solid 1px;
+    height: 50px;
+}
+
+/*TODO CSS animation*/
+#navExpanded {
+    display: none;
+    flex-direction: column;
+}
+
+#storeMenu{
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-around;
+    height: 50px;
+}
+
+#createStore {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 10px;
+}
+
+
+#createStore input, select{
+    margin: 5px;
+    background: transparent;
+    padding: 5px;
+    border: 1px solid white;
+    color: white;
+}
+
+#category option{
+    color: black;
+}
+
+#color option{
+    color: white;
+}
+
+
+#peopleMenu {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-around;
+    height: 50px;
 }
 
 #error {
@@ -95,6 +155,10 @@ body{
 #brand{
     align-self: flex-start;
     color: white;
+    font-size: 25px;
+    line-height: 50px;
+    padding: 0;
+    margin: 0;
 }
 
 .btn{
@@ -103,116 +167,17 @@ body{
     color: white;
 }
 
-.modal-window {
-    position: fixed;
-    background-color: rgba(255, 255, 255, 0.15);
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 999;
-    opacity: 0;
-    pointer-events: none;
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    transition: all 0.3s;
-}
-
-.modal-window:target {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.modal-window>div {
-    background: grey;
-    width: 75vw;
-    position: relative;
-    margin: 10% auto;
-    padding: 2rem;
-    color: #444;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 10px 10px 100px;
-    border-radius: 10px;
-}
-
-.modal-window header {
-    font-weight: bold;
-}
-
-.modal-close {
-    color: #aaa;
-    line-height: 50px;
-    font-size: 80%;
-    position: absolute;
-    right: 0;
-    text-align: center;
-    top: 0;
-    width: 70px;
-    text-decoration: none;
-}
-
-.modal-close:hover {
-    color: #000;
-}
-
-.modal-window h1 {
-    font-size: 150%;
-    margin: 0 0 15px;
-}
-
-.overlay {
-    height: 0%;
-    width: 100%;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0, 0.7);
-    overflow-y: hidden;
-    transition: 0.5s;
-    color: white;
-}
-
-.overlay-content {
-    position: relative;
-    top: 25%;
-    width: 100%;
-    text-align: center;
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-}
-
-.overlay a:hover, .overlay a:focus {
-    color: #f1f1f1;
-}
-
-.overlay .closebtn {
-    position: absolute;
-    top: 20px;
-    right: 45px;
-    font-size: 60px;
-}
-
-@media screen and (max-height: 450px) {
-    .overlay {overflow-y: auto;}
-    .overlay a {font-size: 20px}
-    .overlay .closebtn {
-        font-size: 40px;
-        top: 15px;
-        right: 35px;
-    }
-}
 
 a {
     color: white;
     font-size: 20px;
     text-decoration: none;
     padding: 20px;
+    transition: text-shadow 1s;
 }
 
-#color option{
-    color: white;
+a:hover{
+    text-shadow: 0px 1px 50px;
 }
+
+

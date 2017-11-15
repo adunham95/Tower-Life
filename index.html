@@ -20,21 +20,24 @@
 
 </head>
 <body>
-    <div class="nav">
+<div class="nav">
+    <div id="navTop">
+        <button onclick="toggleNav('navExpanded')" class="btn">&#9776</button>
         <p id="brand">Tower Life</p>
         <p id="money" ></p>
-        <button onclick="openNav()" class="btn">&#9776</button>
     </div>
-    <div id="nextTower"></div>
-    <div id="error"></div>
-    <div id="tower"></div>
-
-    <div id="newStore" class="modal-window">
-        <div>
-            <a href="#modal-close" title="Close" class="modal-close">Close</a>
-            <h1>New Store</h1>
-
-            <input id="name" type="text" placeholder="Name">
+    <div id="navExpanded">
+        <div id="storeMenu">
+            <a onclick="toggleNav('createStore')" href="#">New Store</a>
+            <a onclick="createNewFloor('random')" href="#" >New Random Store</a>
+            <a onclick="reset()" href="#">Reset</a>
+        </div>
+        <!--<div id="peopleMenu">-->
+            <!--<a href="#newPerson">New Person</a>-->
+            <!--<a onclick="createNewPerson('random')" href="#">New Random Person</a>-->
+        <!--</div>-->
+        <div id="createStore">
+            <input id="name" type="text" value="Store Name">
 
             <select id="type">
                 <option value="Store">Store</option>
@@ -61,6 +64,7 @@
 
             <select id="color">
                 <option value="#fff" style="color:black">Select a color</option>
+                <option value="#8B0000" style="background-color: #8B0000">Dark Red</option>
                 <option value="#F44336" style="background-color: #F44336">Red</option>
                 <option value="#E91E63" style="background-color: #E91E63">Pink</option>
                 <option value="#9C27B0" style="background-color: #9C27B0">Purple</option>
@@ -83,36 +87,29 @@
                 <!--<option value="#FFFFFF" style="background-color: #FFFFFF">White</option>-->
             </select>
 
-            <a onclick="createNewFloor('custom')" href="#modal-close" >Create New</a>
-
+            <a onclick="createNewFloor('custom')" href="#" >Create New</a>
         </div>
     </div>
+</div>
+    <div id="nextTower"></div>
+    <div id="error"></div>
+    <div id="tower"></div>
+
+    <!--<div id="newPerson" class="modal-window">-->
+        <!--<div>-->
+            <!--<a href="#modal-close" title="Close" class="modal-close">Close</a>-->
+            <!--<h1>New Store</h1>-->
+
+            <!--<input id="firstName" type="text" placeholder="First Name">-->
+            <!--<input id="lastName" type="text" placeholder="Last Name">-->
+            <!--<textarea id="bio" placeholder="Bio"></textarea>-->
+
+            <!--<a onclick="createNewPerson('custom')" href="#modal-close" class="btn">Add new Person</a>-->
+
+        <!--</div>-->
+    <!--</div>-->
 
 
-    <div id="newPerson" class="modal-window">
-        <div>
-            <a href="#modal-close" title="Close" class="modal-close">Close</a>
-            <h1>New Store</h1>
-
-            <input id="firstName" type="text" placeholder="First Name">
-            <input id="lastName" type="text" placeholder="Last Name">
-            <textarea id="bio" placeholder="Bio"></textarea>
-
-            <a onclick="createNewPerson('custom')" href="#modal-close" class="btn">Add new Person</a>
-
-        </div>
-    </div>
-
-    <div id="myNav" class="overlay">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <div class="overlay-content">
-            <a href="#newStore">New Store</a>
-            <!--<a href="#newPerson">New Person</a>-->
-            <a onclick="createNewFloor('random')" href="#" >New Random Store</a>
-            <!--<a onclick="createNewPerson('random')" href="#">New Random Person</a>-->
-            <a onclick="reset()" href="#">Reset</a>
-        </div>
-    </div>
 
     <script>
         if('serviceWorker' in navigator) {
