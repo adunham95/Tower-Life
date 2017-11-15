@@ -172,7 +172,6 @@ function createNewFloor(randomness) {
     if (type === "Store"){
         newFloor = new Store(name, category, color, 1 + (parseInt(floor)/10 ));
         //Closes the create menu
-        toggleNav('navExpanded')
     }
     else {
         newFloor = new Apartment(name,  color);
@@ -185,12 +184,16 @@ function createNewFloor(randomness) {
     let purchased = wallet(-(floor * 1000));
 
     if(purchased === true){
+        toggleNav('navExpanded')
         tower.push(newFloor);
         // console.log(tower);
         window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
         displayFloor(floor);
         //Displays the cost of the next floor
         document.getElementById("nextTower").innerHTML = "Next floor costs: $" + ( (tower.length + (tower.length/10)) * 1000);
+    }
+    else {
+        setTimeout(function(){ toggleNav('navExpanded') }, 3000);
     }
 }
 
@@ -331,6 +334,8 @@ function stockRoom(i) {
     else{
         supplyRoom.disabled = false;
     }
+
+    console.log(tower[i]);
 }
 
 function wallet(amount) {

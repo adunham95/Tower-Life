@@ -145,7 +145,6 @@ body{
 }
 
 #error {
-    /*position: fixed;*/
     height: 50px;
     background: darkred;
     color: white;
