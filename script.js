@@ -39,11 +39,11 @@ function onLoad() {
     //     displayFloor(i);
     // }
 
-    reload();
+    // reload();
 
-    // window.setInterval(function(){
-    //     reload()
-    // }, 500);
+    window.setInterval(function(){
+        reload()
+    }, 500);
 
 }
 
