@@ -60,7 +60,7 @@ function onLoad() {
 function reload() {
     // console.log("Reloaded");
     document.getElementById("tower").innerHTML = '';
-    document.getElementById("nextTower").innerHTML = "Next floor costs: $" + (tower.length * 1000);
+    document.getElementById("nextTower").innerHTML = "Next floor costs: $" + ( (tower.length + (tower.length/10)) * 1000);
     let currentTime = new Date();
     // console.log(tower);
     // console.log("Current: " + currentTime);
@@ -76,7 +76,9 @@ function reload() {
                 window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
 
                 //Adds the cost of purchased merchandise
-                wallet(750);
+                let purchasedMerch = (750 * multiplier(i) );
+                // console.log(purchasedMerch);
+                wallet(purchasedMerch);
 
             }
         }
@@ -84,7 +86,7 @@ function reload() {
     }
 }
 
-function Store(name, category, colors) {
+function Store(name, category, colors, multiplier) {
     //Creates a new store in the tower
 
     this.id = generateID();
@@ -92,7 +94,7 @@ function Store(name, category, colors) {
     this.type = "Store";
     this.storeCategory = category;
     this.color= colors;
-    this.stockRoom = {item: "Item", count: 0, expires: 0};
+    this.stockRoom = {item: "Item", count: 0, expires: 0, multiplier: multiplier};
 }
 
 function Apartment(name, floor, colors) {
@@ -154,7 +156,7 @@ function createNewFloor(randomness) {
 
     //If Store or apartment
     if (type === "Store"){
-        newFloor = new Store(name, category, color);
+        newFloor = new Store(name, category, color, 1 + (parseInt(floor)/10 ));
     }
     else {
         newFloor = new Apartment(name,  color);
@@ -251,7 +253,7 @@ function displayFloor(i) {
     }
     else {
         divRoom.innerHTML = `<span>${tower[i].name}</span>`;
-        supplyRoom.innerText = "Stock floor: $500";
+        supplyRoom.innerText = `Stock floor: $${(multiplier(i) * 500)}`;
         supplyRoom.addEventListener ("click", function () {
             stockRoom(i);
         });
@@ -275,12 +277,14 @@ function closeNav() {
 
 function stockRoom(index) {
 
-    let timeInMinutes = 1;
+    let timeInMinutes = tower[index].stockRoom.multiplier || 1;
     let currentTime = Date.parse(new Date());
     let deadline = new Date(currentTime + timeInMinutes*60*1000);
+    // console.log(timeInMinutes*60*1000);
+    // console.log(timeInMinutes);
 
     //Takes away the cost of merchandise
-    let purchased = wallet(-500);
+    let purchased = wallet(-(500 * multiplier(index)));
 
     if(purchased === true){
         // document.getElementById(tower[index].id).innerHTML = `<span>${tower[index].name}</span>`;
@@ -292,9 +296,6 @@ function stockRoom(index) {
 
         //Stores the room has been stocked
         window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
-
-        // //Takes away the cost of merchandise
-        // wallet(-500);
     }
 }
 
@@ -318,7 +319,7 @@ function reset() {
 function wallet(amount) {
     //Creates a temp value for the money amount
     let newMoney = parseInt(money) + amount;
-    // console.log(newMoney + ":" + money);
+    console.log(amount);
     //Sees is you have enough money to purchase the item
     if(newMoney < 0){
         displayError("Not enough money");
@@ -347,4 +348,15 @@ function displayError(message) {
     setTimeout(function(){
         document.getElementById("error").style.display = "none"
         }, 3000);
+}
+
+function multiplier(i) {
+    if(i === 0){
+    }
+    else if(tower[i].stockRoom.multiplier === undefined){
+        return 1
+    }
+    else {
+        return tower[i].stockRoom.multiplier
+    }
 }
