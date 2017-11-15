@@ -302,6 +302,9 @@ function toggleNav(item) {
 
 function stockRoom(i) {
 
+    let supplyRoom = document.getElementById(tower[i].id + "stock");
+    supplyRoom.disabled = true;
+
     let timeInMinutes = tower[i].stockRoom.multiplier || 1;
     let currentTime = Date.parse(new Date());
     let deadline = new Date(currentTime + timeInMinutes*60*1000);
@@ -319,23 +322,24 @@ function stockRoom(i) {
         // console.log(tower[index]);
         tower[i].stockRoom.expires = deadline;
 
-        let supplyRoom = document.getElementById(tower[i].id + "stock");
         // console.log(tower[i].id + "stock");
         supplyRoom.innerText = "Stocking...";
-        supplyRoom.disabled = true;
 
         //Stores the room has been stocked
         window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
+    }
+    else{
+        supplyRoom.disabled = false;
     }
 }
 
 function wallet(amount) {
     //Creates a temp value for the money amount
     let newMoney = parseInt(money) + parseInt(amount);
-    // console.log(money +"+"+ parseInt(amount) +"="+parseInt(newMoney));
+    console.log(money +"+"+ parseInt(amount) +"="+parseInt(newMoney));
 
     //Sees is you have enough money to purchase the item
-    if(newMoney < 0){
+    if(parseInt(newMoney) < 0){
         displayError("Not enough money");
         return false
     }
