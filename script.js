@@ -49,11 +49,11 @@ function onLoad() {
     //     displayFloor(i);
     // }
 
-    // reload();
+    reload();
 
-    window.setInterval(function(){
-        reload()
-    }, 500);
+    // window.setInterval(function(){
+    //     reload()
+    // }, 500);
 
 }
 
@@ -157,6 +157,8 @@ function createNewFloor(randomness) {
     //If Store or apartment
     if (type === "Store"){
         newFloor = new Store(name, category, color, 1 + (parseInt(floor)/10 ));
+        //Closes the create menu
+        toggleNav('navExpanded')
     }
     else {
         newFloor = new Apartment(name,  color);
@@ -249,6 +251,7 @@ function displayFloor(i) {
         divRoom.innerHTML = `<span>${tower[i].name}</span>`;
         supplyRoom.innerText = "Stocking...";
         supplyRoom.disabled = true;
+        // supplyRoom.className = "stockButton";
         divRoom.appendChild(supplyRoom);
     }
     else {
@@ -267,13 +270,15 @@ function displayFloor(i) {
     targetElement.appendChild(divFloor);
 }
 
-function openNav() {
-    document.getElementById("myNav").style.height = "100%";
+function toggleNav(item) {
+    if(document.getElementById(item).style.display === "flex"){
+        document.getElementById(item).style.display = "none";
+    }
+    else{
+        document.getElementById(item).style.display = "flex";
+    }
 }
 
-function closeNav() {
-    document.getElementById("myNav").style.height = "0%";
-}
 
 function stockRoom(index) {
 
@@ -313,6 +318,7 @@ function reset() {
     document.getElementById("money").innerText = '$'+money;
     citizen = [];
     newTower();
+    toggleNav('navExpanded');
     reload();
 }
 
