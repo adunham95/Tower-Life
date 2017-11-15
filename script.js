@@ -21,16 +21,6 @@ function onLoad() {
 
     if(id === null){
        reset();
-
-        // //Adds the lobby
-        // tower.push({
-        //     id:"lobby",
-        //     name:"Lobby",
-        //     type:"Store",
-        //     color:["#DC143C","#1E90FF"] //Primary Secondary
-        // });
-        // newTower()
-
     }
     else {
         //Gets the tower from local storage and sets it to the tower length
@@ -231,11 +221,14 @@ function displayFloor(i) {
     let divElevator = document.createElement("div");
     let divRoom = document.createElement("div");
     let supplyRoom = document.createElement("button");
+    let info = document.createElement("button");
 
     //Sets the classes for the elements
     divFloor.className = "floor";
     divElevator.className = "elevator";
     divRoom.className = "room";
+    info.innerText = "i";
+    info.className = "info";
     divRoom.id = tower[i].id;
 
     //Sets the background color of the room
@@ -248,14 +241,15 @@ function displayFloor(i) {
         divRoom.innerHTML = tower[i].name;
     }
     else if(tower[i].stockRoom.count >= 1000){
-        divRoom.innerHTML = `<span>${tower[i].name}</span>`;
+        divRoom.innerHTML = `<div>${tower[i].name}</div>`;
         supplyRoom.innerText = "Stocking...";
         supplyRoom.disabled = true;
         // supplyRoom.className = "stockButton";
         divRoom.appendChild(supplyRoom);
+        // divRoom.appendChild(info);
     }
     else {
-        divRoom.innerHTML = `<span>${tower[i].name}</span>`;
+        divRoom.innerHTML = `<div>${tower[i].name}</div>`;
         supplyRoom.innerText = `Stock floor: $${(multiplier(i) * 500)}`;
         supplyRoom.addEventListener ("click", function () {
             stockRoom(i);
