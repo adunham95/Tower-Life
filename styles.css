@@ -40,7 +40,7 @@ body{
     padding: 10px;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -100,7 +100,7 @@ body{
     display: flex;
     flex-direction: row;
     align-content: center;
-    justify-content: space-around;
+    justify-content: space-between;
     height: 50px;
 }
 
