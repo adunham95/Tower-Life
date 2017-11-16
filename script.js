@@ -316,7 +316,6 @@ function stockRoom(i) {
 
     let supplyRoom = document.getElementById(tower[i].id + "stock");
     supplyRoom.disabled = true;
-    supplyRoom.innerText = "I AM STOCKING!";
 
     console.log(supplyRoom.disabled);
     console.log(supplyRoom.innerText);
@@ -340,6 +339,7 @@ function stockRoom(i) {
 
         // console.log(tower[i].id + "stock");
         supplyRoom.innerText = "Stocking...";
+        supplyRoom.disabled= true;
 
         //Stores the room has been stocked
         window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
@@ -347,7 +347,6 @@ function stockRoom(i) {
     }
     else{
         supplyRoom.disabled = false;
-        console.log(supplyRoom.disabled);
     }
 
     console.log(tower[i]);
