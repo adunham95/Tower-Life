@@ -249,16 +249,11 @@ function displayFloor(i) {
     let divFloor = document.createElement("div");
     let divElevator = document.createElement("div");
     let divRoom = document.createElement("div");
-    let supplyRoom = document.createElement("button");
-    let info = document.createElement("button");
 
     // //Sets the ids classes for the elements
-    supplyRoom.id = tower[i].id + "stock";
     divFloor.className = "floor";
     divElevator.className = "elevator";
     divRoom.className = "room";
-    info.innerText = "i";
-    info.className = "info";
     divRoom.id = tower[i].id;
 
     //Sets the background color of the room
@@ -266,10 +261,6 @@ function displayFloor(i) {
 
     //Add the floor number to the elevator
     divElevator.innerHTML = "<h1>" + i + "</h1>";
-
-    info.addEventListener("click", function () {
-        toggleNav()
-    });
 
     //Displays the room name in the room
     if(i === 0){
@@ -322,8 +313,13 @@ function toggleNav(item) {
 
 function stockRoom(i) {
 
+
     let supplyRoom = document.getElementById(tower[i].id + "stock");
     supplyRoom.disabled = true;
+    supplyRoom.innerText = "I AM STOCKING!";
+
+    console.log(supplyRoom.disabled);
+    console.log(supplyRoom.innerText);
 
     let timeInMinutes = tower[i].stockRoom.multiplier || 1;
     let currentTime = Date.parse(new Date());
@@ -347,9 +343,11 @@ function stockRoom(i) {
 
         //Stores the room has been stocked
         window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
+        console.log(supplyRoom.disabled);
     }
     else{
         supplyRoom.disabled = false;
+        console.log(supplyRoom.disabled);
     }
 
     console.log(tower[i]);
