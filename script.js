@@ -90,7 +90,7 @@ function onLoad() {
                 // console.log(tower[i].id + "stock");
                 supplyRoom.innerText = `Stock floor: $${(multiplier(i) * 250)}`;
                 supplyRoom.addEventListener ("click", function () {
-                    stockRoom(i);
+                    stockRoom(event, i);
                 });
                 supplyRoom.disabled = false;
 
@@ -236,7 +236,7 @@ function getRandom(type) {
         return last[Math.floor(Math.random() * last.length)];
     }
     else if (type === 'category'){
-        let categories = ["Car Dealership", "Grocery Store", "Jewellery Store", "Flower Store", "Beauty Salon", "Butcher", "Toy Store", "Music Store", "Clothes Store","Book Store","Tech Store","Sports Store","E-Store","Dollar Store","Brand Store"];
+        let categories = ["Car Dealership", "Grocery Store", "Jewellery Store", "Flower Store", "Beauty Salon", "Butcher", "Toy Store", "Music Store", "Clothes Store","Book Store","Tech Store","Sports Store","E-Store","Dollar Store"];
         return categories[Math.floor(Math.random() * categories.length)]
     }
 }
@@ -283,7 +283,7 @@ function displayFloor(i) {
         divRoom.innerHTML = `
             <div class="storeFront">
                 <div>${tower[i].name}</div>
-                <button id="${tower[i].id}stock" onclick="stockRoom(${i});">Stock floor: $${(multiplier(i) * 250)}</button>
+                <button id="${tower[i].id}stock" onclick="stockRoom(event, ${i});">Stock floor: $${(multiplier(i) * 250)}</button>
                 <button onclick="toggleNav('${tower[i].id}SR')" class="info">i</button>
             </div>
             <div class="stockRoom" id="${tower[i].id}SR">
@@ -292,6 +292,12 @@ function displayFloor(i) {
                 <a onclick="deleteFloor(${i})" href="#" class="delete stockBtn">Delete Store</a>
             </div>`;
     }
+
+    // document.getElementById('ex1').addEventListener('click', function(e){
+    //     e.stopPropagation();
+    //     this.style.backgroundColor = 'deeppink';
+    // },false);
+
 
     //Binders
     divFloor.appendChild(divElevator);
@@ -310,11 +316,11 @@ function toggleNav(item) {
 }
 
 
-function stockRoom(i) {
-
+function stockRoom(e, i) {
 
     let supplyRoom = document.getElementById(tower[i].id + "stock");
     supplyRoom.disabled = true;
+    e.stopImmediatePropagation();
 
     console.log(supplyRoom.disabled);
     console.log(supplyRoom.innerText);
