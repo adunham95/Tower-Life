@@ -273,8 +273,7 @@ function displayFloor(i) {
                 <button id="${tower[i].id}stock" disabled>Stocking...</button>
                 <button onclick="toggleNav('${tower[i].id}SR')" class="info">i</button>
             </div>
-            <div class="stockRoom" id="${tower[i].id}StockRoom">
-                <div class="stockRoom" id="${tower[i].id}SR">
+            <div class="stockRoom" id="${tower[i].id}SR">
                 <input id="${tower[i].id}Name" type="text" value="${tower[i].name}" class="stockBtn">
                 <a onclick="updateFloor(${i})" href="#" class="update stockBtn">Update Store</a>
                 <a onclick="deleteFloor(${i})" href="#" class="delete stockBtn">Delete Store</a>
