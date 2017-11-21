@@ -23,13 +23,19 @@
 <div class="nav">
     <div id="navTop">
         <button onclick="toggleNav('navExpanded')" class="btn">&#9776</button>
-        <p id="brand">Tower Life</p>
+        <p id="brand" onclick="cheater()">Tower Life</p>
         <p id="money" ></p>
     </div>
     <div id="navExpanded">
         <div id="storeMenu">
+            <!--<a onclick="createNewFloor('random')" href="#" >Random Store</a>-->
+            <!--<a onclick="newTower()" href="#">Random Person</a>-->
+            <!--<a onclick="newTower()" href="#">Reset</a>-->
+            <!--<a onclick="toggleNav('createStore')" href="#">New Person</a>-->
+            <!--<a onclick="toggleNav('createStore')" href="#">New Store</a>-->
+
             <a onclick="toggleNav('createStore')" href="#">New Store</a>
-            <a onclick="createNewFloor('random')" href="#" >New Random Store</a>
+            <a onclick="createNewFloor('random')" href="#" >Random Store</a>
             <a onclick="newTower()" href="#">Reset</a>
         </div>
         <!--<div id="peopleMenu">-->
@@ -45,7 +51,6 @@
             </select>
 
             <select id="category">
-                <option value="Store" selected hidden>Select A Type</option>
                 <option value="Car Dealership">Car Dealership</option>
                 <option value="Grocery Store">Grocery Store</option>
                 <option value="Jewellery Store">Jewellery Store</option>
@@ -64,7 +69,7 @@
             </select>
 
             <select id="color">
-                <option value="#fff" style="color:black" selected hidden>Select a color</option>
+                <option value="#fff" style="color:black">Select a color</option>
                 <option value="#8B0000" style="background-color: #8B0000">Dark Red</option>
                 <option value="#F44336" style="background-color: #F44336">Red</option>
                 <option value="#E91E63" style="background-color: #E91E63">Pink</option>
@@ -96,6 +101,10 @@
     <div id="nextTower"></div>
     <div id="tower"></div>
 
+    <div id="devOptions">
+        <input id="devText" type="text" placeholder="Dev Options">
+        <button id="devSubmit" onclick="devOption()">Submit</button>
+    </div>
     <!--<div id="newPerson" class="modal-window">-->
         <!--<div>-->
             <!--<a href="#modal-close" title="Close" class="modal-close">Close</a>-->

@@ -7,6 +7,7 @@ body{
     /*margin-top: 70px;*/
     display: flex;
     flex-direction: column-reverse;
+    margin-bottom: 50px;
 }
 
 #nextTower{
@@ -88,7 +89,7 @@ body{
 .nav{
     position: fixed;
     top: 0;
-    background: green;
+    background: #607D8B;
     width: 100%;
     display: flex;
     align-content: center;
@@ -116,7 +117,17 @@ body{
     flex-direction: row;
     align-content: center;
     justify-content: space-around;
+    flex-wrap: wrap;
+    /*overflow-x: scroll;*/
+    /*overflow-y: inherit;*/
+    text-align: center;
 }
+
+/*#storeMenu a {*/
+    /*padding: 10px;*/
+/*}*/
+
+
 
 #createStore {
     display: none;
@@ -220,3 +231,22 @@ input.stockBtn {
 .delete{
     background: darkred;
 }
+
+
+/*DevOptions*/
+#devOptions{
+    display: none;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    justify-content: center;
+    flex-direction: row;
+    height: 50px;
+}
+
+#devText {
+    line-height: 50px;
+    flex-grow: 2;
+    font-size: 25px;
+}
+

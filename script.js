@@ -1,6 +1,7 @@
 let tower = [];
 let money;
 let citizen = [];
+let cheat = 0;
 
 //Creates a new tower
 function newTower() {
@@ -39,10 +40,22 @@ function newTower() {
 window.onload = onLoad();
 
 function onLoad() {
+    let browser = {
+        'Browser Codename': navigator.appCodeName,
+        'Browser Name': navigator.appName,
+        'BrowserVersion':navigator.appVersion,
+        'Cookies enabled':navigator.cookieEnabled,
+        'Browser Language':navigator.language,
+        'Browser Online':navigator.onLine,
+        'Platform':navigator.platform,
+        'User agent header':navigator.userAgent
+    };
+    console.log(browser);
+
     //Gets the tower ID
     let id = window.localStorage.getItem("TowerID");
 
-
+    //Checks to see the is there is already a tower
     if(id === null){
        newTower()
     }
@@ -50,6 +63,18 @@ function onLoad() {
         //Gets the tower from local storage and sets it to the tower length
         tower = JSON.parse(window.localStorage.getItem("TowerFloors"));
         // console.log(tower);
+    }
+
+    //Dev Check
+    let devOptions = window.localStorage.getItem("DevOptions");
+    let devCreate = window.localStorage.getItem("CreativeMode");
+    console.log(devOptions);
+    if(devOptions === 'enabled'){
+        document.getElementById('devOptions').style.display = 'flex'
+    }
+    if(devCreate === 'enabled'){
+        let e =document.getElementsByClassName('nav')[0];
+        e.style.backgroundColor ='#F4511E';
     }
 
     //Displays the amount of the money the user has
@@ -68,7 +93,6 @@ function onLoad() {
     }
 
     //Watches the stockroom expiration date to see if its expired
-
     window.setInterval(function(){
         let currentTime = new Date();
         for(let i = 1; i < tower.length; i++) {
@@ -179,12 +203,21 @@ function createNewFloor(randomness) {
 
     // console.table(newFloor);
 
+    //CreativeMode
+    let creative = window.localStorage.getItem("CreativeMode");
 
     //Takes the money from the uses account to purchase the new floor
-    let purchased = wallet(-(floor * 1000));
+    let purchased;
+    if(creative === 'enabled'){
+        purchased = true;
+    }
+    else {
+        purchased = wallet(-(floor * 1000));
+    }
+
 
     if(purchased === true){
-        toggleNav('navExpanded')
+        toggleNav('navExpanded');
         tower.push(newFloor);
         // console.log(tower);
         window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
@@ -429,4 +462,65 @@ function deleteFloor(i) {
     }
     //Displays the cost of the next floor since the height has changed
     document.getElementById("nextTower").innerHTML = "Next floor costs: $" + ( (tower.length + (tower.length/10)) * 1000);
+}
+
+function cheater() {
+    cheat++;
+    console.log(cheat);
+
+    if(cheat === 5){
+        console.log("DevOptions enabled");
+        window.localStorage.setItem("DevOptions", 'enabled');
+        document.getElementById('devOptions').style.display = 'flex';
+        displayError("DevOps Enabled")
+    }
+}
+
+function devOption() {
+    let option = document.getElementById('devText').value;
+
+    if(option === 'disable'){
+        console.log("DevOptions disabled");
+        window.localStorage.setItem("DevOptions", 'disabled');
+        document.getElementById('devOptions').style.display = 'none'
+    }
+    else if(option === 'millionaire'){
+        wallet(1000000)
+    }
+    else if(option === 'broke'){
+        wallet(-money)
+    }
+    else if(option === 'creative-on'){
+        window.localStorage.setItem("CreativeMode", 'enabled');
+        let e =document.getElementsByClassName('nav')[0];
+        e.style.backgroundColor ='#F4511E';
+    }
+    else if(option === 'creative-off'){
+        window.localStorage.setItem("CreativeMode", 'disabled');
+        let e =document.getElementsByClassName('nav')[0];
+        e.style.backgroundColor ='#607D8B';
+    }
+    else if(option === 'tesla'){
+        let newFloor = new Store('Tesla', "Car Company", ["#cc0000"], 1 + (parseInt(tower.length)/10 ));
+        console.log(newFloor);
+
+        tower.push(newFloor);
+        console.log(tower);
+        window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
+        displayFloor(tower.length - 1);
+        //Displays the cost of the next floor
+        document.getElementById("nextTower").innerHTML = "Next floor costs: $" + ( (tower.length + (tower.length/10)) * 1000);
+    }
+    else if(option === 'panther'){
+        let newFloor = new Store('Panthers', "Sports Team", ["#0085CA"], 1 + (parseInt(tower.length)/10 ));
+        console.log(newFloor);
+
+        tower.push(newFloor);
+        console.log(tower);
+        window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
+        displayFloor(tower.length - 1);
+        //Displays the cost of the next floor
+        document.getElementById("nextTower").innerHTML = "Next floor costs: $" + ( (tower.length + (tower.length/10)) * 1000);
+    }
+
 }
