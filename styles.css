@@ -7,7 +7,6 @@ body{
     /*margin-top: 70px;*/
     display: flex;
     flex-direction: column-reverse;
-    margin-bottom: 50px;
 }
 
 #nextTower{
@@ -27,7 +26,7 @@ body{
 .elevator {
     width: 100px;
     height: 100px;
-    background: grey;
+    background: #546E7A;
     border: solid black 1px;
     align-items: center;
     display: flex;
@@ -57,9 +56,11 @@ body{
 .room button.info{
     background: transparent;
     color: white;
-    border: 1px white solid;
-    padding: 10px 15px;
-    border-radius: 50%;
+    border: none;
+    margin: 5px 10px;
+    padding: 0;
+    font-size: 20px;
+
 }
 
 .storeFront {
@@ -69,7 +70,6 @@ body{
     align-items: center;
     height: 79px;
     padding: 10px;
-    border-bottom: white 1px solid;
 }
 
 .stockRoom{
@@ -77,6 +77,11 @@ body{
     flex-direction: column;
     justify-content: space-around;
     padding: 10px;
+    border-top: white 1px solid;
+}
+
+.stockRoom button{
+    float: right;
 }
 
 #lobby{
@@ -136,8 +141,22 @@ body{
     padding: 10px;
 }
 
+#createApt {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 10px;
+}
 
-#createStore input, select{
+#createPerson {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 10px;
+}
+
+
+.create input, select{
     margin: 5px;
     background: transparent;
     padding: 5px;
@@ -175,7 +194,7 @@ body{
 
 .btn {
     color: black;
-    font-size: 40px;
+    font-size: 30px;
     line-height: 50px;
 }
 
@@ -250,3 +269,6 @@ input.stockBtn {
     font-size: 25px;
 }
 
+.beta{
+    display: none;
+}

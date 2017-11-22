@@ -67,14 +67,21 @@ function onLoad() {
 
     //Dev Check
     let devOptions = window.localStorage.getItem("DevOptions");
-    let devCreate = window.localStorage.getItem("CreativeMode");
-    console.log(devOptions);
+    let devCreative = window.localStorage.getItem("CreativeMode");
+    let devApartments = window.localStorage.getItem("DevApartment");
     if(devOptions === 'enabled'){
-        document.getElementById('devOptions').style.display = 'flex'
+        document.getElementById('devOptions').style.display = 'flex';
+        document.getElementById('tower').style.marginBottom = '50px';
+        if(devCreative === 'enabled'){
+            let e =document.getElementsByClassName('nav')[0];
+            e.style.backgroundColor ='#F4511E';
+        }
     }
-    if(devCreate === 'enabled'){
-        let e =document.getElementsByClassName('nav')[0];
-        e.style.backgroundColor ='#F4511E';
+    if(devApartments === 'enabled'){
+        let beta = document.getElementsByClassName('beta');
+        for (let i=0; i<beta.length; i++){
+            beta[i].style.display = 'inherit';
+        }
     }
 
     //Displays the amount of the money the user has
@@ -87,10 +94,7 @@ function onLoad() {
     //Displays the cost of the next floor
     document.getElementById("nextTower").innerHTML = "Next floor costs: $" + ( (tower.length + (tower.length/10)) * 1000);
 
-    //Displays the floors
-    for(let i = 0; i < tower.length; i++) {
-        displayFloor(i);
-    }
+    render();
 
     //Watches the stockroom expiration date to see if its expired
     window.setInterval(function(){
@@ -121,7 +125,14 @@ function onLoad() {
             }
         }
     }, 500);
+}
 
+function render() {
+    document.getElementById('tower').innerHTML = '';
+    //Displays the floors
+    for(let i = 0; i < tower.length; i++) {
+        displayFloor(i);
+    }
 }
 
 function Store(name, category, colors, multiplier) {
@@ -135,23 +146,22 @@ function Store(name, category, colors, multiplier) {
     this.stockRoom = {item: "Item", count: 0, expires: 0, multiplier: multiplier};
 }
 
-function Apartment(name, floor, colors) {
+function Apartment(name,  colors) {
     //Creates a new apartment in tower
     this.id = generateID();
     this.name = name;
     this.type = "Apartment";
-    this.floor = floor;
     this.color= colors;
-    this.changeFloor = function (newFloorNumber) {
-        this.floor = newFloorNumber;
-    }
+    this.stockRoom = {expires: 0};
+    this.residents = [];
 }
 
-function Person(name, bio, home, job) {
+function Person(fname, lname, home, job, bio) {
     //Creates a person in the tower
 
     this.id = generateID();
-    this.name = name;
+    this.fname = fname;
+    this.lname = lname;
     this.bio = bio;
     this.home = home;
     this.job = job;
@@ -164,10 +174,10 @@ function generateID() {
     return randLetter;
 }
 
-function createNewFloor(randomness) {
+function createNewFloor(randomness, type) {
     let newFloor;
     let name = document.getElementById("name").value;
-    let type = document.getElementById("type").value;
+    let nameApt = document.getElementById('nameApt').value;
     let category;
     let color = [document.getElementById("color").value];
     let floor = (tower.length);
@@ -191,14 +201,17 @@ function createNewFloor(randomness) {
     if(name === 'Store Name' || name === ''){
         name = category;
     }
+    else if (nameApt === 'Apartment Name' || nameApt === ''){
+        nameApt = getRandom('aptName')
+    }
 
     //If Store or apartment
     if (type === "Store"){
         newFloor = new Store(name, category, color, 1 + (parseInt(floor)/10 ));
         //Closes the create menu
     }
-    else {
-        newFloor = new Apartment(name,  color);
+    else if(type === 'Apartment') {
+        newFloor = new Apartment(nameApt, [getRandom("color")]);
     }
 
     // console.table(newFloor);
@@ -232,26 +245,42 @@ function createNewFloor(randomness) {
 
 function createNewPerson() {
     let newPerson;
-    let name = [];
-    let bio = document.getElementById("bio").value;
+    let fname = document.getElementById("fName").value;
+    let lname = document.getElementById("lName").value;
+    let home = 0;
+    // let bio = document.getElementById("bio").value;
 
-    // If the name is blank it will be the category value
-    if(document.getElementById("firstName").value==='' && document.getElementById("lastName").value===''){
-        // console.log("Getting random");
-        name = [getRandom("first"),getRandom("last")];
+    // If the name is blank
+    if(fname === 'First Name' || fname === ''){
+        fname = getRandom("first");
     }
-    else {
-        // console.log("Given");
-        // console.log(document.getElementById("firstName").value);
-        name = [document.getElementById("firstName").value, document.getElementById("lastName").value];
+    if(lname === 'Last Name' || lname === ''){
+        lname = getRandom("last");
     }
 
-    newPerson = new Person(name, bio, 1, 1);
-    // console.log(newPerson);
+    for(let i = 0; i <= tower.length; i++) {
+        if(i === tower.length){
+            displayError("There are no available apartments")
+        }
+        else if(tower[i].type === "Apartment"){
+            home = i;
+            if(tower[i].residents.length === 4){
+                displayError("Four residents per apartment")
+            }
+            else {
+                newPerson = new Person(fname, lname, home, 2);
+                let newHome =tower[home].residents;
+                newHome.push(newPerson);
+                // citizen.push(newPerson);
+                // window.localStorage.setItem("Tenates", JSON.stringify(citizen));
+                window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
 
-    citizen.push(newPerson);
-    // console.log(citizen);
-    window.localStorage.setItem("Tenates", JSON.stringify(citizen));
+            }
+            render();
+            break
+        }
+    }
+
 
 }
 
@@ -271,6 +300,10 @@ function getRandom(type) {
     else if (type === 'category'){
         let categories = ["Car Dealership", "Grocery Store", "Jewellery Store", "Flower Store", "Beauty Salon", "Butcher", "Toy Store", "Music Store", "Clothes Store","Book Store","Tech Store","Sports Store","E-Store","Dollar Store"];
         return categories[Math.floor(Math.random() * categories.length)]
+    }
+    else if(type === 'aptName'){
+        let name = ["Hill Apartments", "One Hill Apartments"];
+        return name[Math.floor(Math.random() * name.length)]
     }
 }
 
@@ -299,12 +332,36 @@ function displayFloor(i) {
     if(i === 0){
         divRoom.innerHTML = tower[i].name;
     }
+    else if(tower[i].type === 'Apartment'){
+        divRoom.innerHTML = `
+            <div class="storeFront">
+                <div>${tower[i].name}</div>
+                <div></div>
+                <div>
+                    <button onclick="toggleNav('${tower[i].id}C')">Citizens</button>
+                    <button onclick="toggleNav('${tower[i].id}SR')" class="info"><i class="fa fa-ellipsis-v-alt"></i></button>
+                </div>
+            </div>
+            <div class="stockRoom" id="${tower[i].id}SR">
+                <input id="${tower[i].id}Name" type="text" value="${tower[i].name}" class="stockBtn">
+                <a onclick="updateFloor(${i})" href="#" class="update stockBtn">Update Apartment</a>
+                <a onclick="deleteFloor(${i})" href="#" class="delete stockBtn">Delete Apartments</a>
+            </div>
+            <div class="stockRoom" id="${tower[i].id}C">
+                ${tower[i].residents.map(resident => `<div><i class="fa fa-user-alt"></i> ${resident.fname} ${resident.lname}</div>`).join('')}
+                
+               
+            </div>`
+
+    }
     else if(tower[i].stockRoom.count >= 1000){
         divRoom.innerHTML = `
             <div class="storeFront">
                 <div>${tower[i].name}</div>
-                <button id="${tower[i].id}stock" disabled>Stocking...</button>
-                <button onclick="toggleNav('${tower[i].id}SR')" class="info">i</button>
+                <div>
+                     <button id="${tower[i].id}stock" disabled>Stocking...</button>
+                    <button onclick="toggleNav('${tower[i].id}SR')" class="info"><i class="fa fa-ellipsis-v-alt"></i></button>
+                </div>
             </div>
             <div class="stockRoom" id="${tower[i].id}SR">
                 <input id="${tower[i].id}Name" type="text" value="${tower[i].name}" class="stockBtn">
@@ -316,8 +373,10 @@ function displayFloor(i) {
         divRoom.innerHTML = `
             <div class="storeFront">
                 <div>${tower[i].name}</div>
-                <button id="${tower[i].id}stock" onclick="stockRoom(event, ${i});">Stock floor: $${(multiplier(i) * 250)}</button>
-                <button onclick="toggleNav('${tower[i].id}SR')" class="info">i</button>
+                <div>
+                    <button id="${tower[i].id}stock" onclick="stockRoom(event, ${i});">Stock floor: $${(multiplier(i) * 250)}</button>
+                    <button onclick="toggleNav('${tower[i].id}SR')" class="info"><i class="fa fa-ellipsis-v-alt"></i></button>              
+                </div>
             </div>
             <div class="stockRoom" id="${tower[i].id}SR">
                 <input id="${tower[i].id}Name" type="text" value="${tower[i].name}" class="stockBtn">
@@ -466,13 +525,13 @@ function deleteFloor(i) {
 
 function cheater() {
     cheat++;
-    console.log(cheat);
 
     if(cheat === 5){
         console.log("DevOptions enabled");
         window.localStorage.setItem("DevOptions", 'enabled');
         document.getElementById('devOptions').style.display = 'flex';
-        displayError("DevOps Enabled")
+        displayError("DevOps Enabled");
+        document.getElementById('tower').style.marginBottom = '50px';
     }
 }
 
@@ -482,7 +541,8 @@ function devOption() {
     if(option === 'disable'){
         console.log("DevOptions disabled");
         window.localStorage.setItem("DevOptions", 'disabled');
-        document.getElementById('devOptions').style.display = 'none'
+        document.getElementById('devOptions').style.display = 'none';
+        document.getElementById('tower').style.marginBottom = '0px';
     }
     else if(option === 'millionaire'){
         wallet(1000000)
@@ -500,6 +560,13 @@ function devOption() {
         let e =document.getElementsByClassName('nav')[0];
         e.style.backgroundColor ='#607D8B';
     }
+    else if (option === 'enable-apt'){
+        window.localStorage.setItem("DevApartment", 'enabled');
+        let apt = document.getElementsByClassName('beta');
+        for (let i=0; i<apt.length; i++){
+            apt[i].style.display = 'inherit';
+        }
+    }
     else if(option === 'tesla'){
         let newFloor = new Store('Tesla', "Car Company", ["#cc0000"], 1 + (parseInt(tower.length)/10 ));
         console.log(newFloor);
@@ -510,6 +577,31 @@ function devOption() {
         displayFloor(tower.length - 1);
         //Displays the cost of the next floor
         document.getElementById("nextTower").innerHTML = "Next floor costs: $" + ( (tower.length + (tower.length/10)) * 1000);
+    }
+    else if(option === 'elon'){
+        for(let i = 0; i <= tower.length; i++) {
+            if(i === tower.length){
+                displayError("There are no available apartments")
+            }
+            else if(tower[i].type === "Apartment"){
+                let home = i;
+                if(tower[i].residents.length === 4){
+                    displayError("Four residents per apartment")
+                }
+                else {
+                    let newPerson = new Person("Elon", "Musk", home, 2);
+                    let newHome =tower[home].residents;
+                    newHome.push(newPerson);
+                    // citizen.push(newPerson);
+                    // window.localStorage.setItem("Tenates", JSON.stringify(citizen));
+                    window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
+
+                }
+                render();
+                break
+            }
+        }
+
     }
     else if(option === 'panther'){
         let newFloor = new Store('Panthers', "Sports Team", ["#0085CA"], 1 + (parseInt(tower.length)/10 ));
@@ -522,5 +614,4 @@ function devOption() {
         //Displays the cost of the next floor
         document.getElementById("nextTower").innerHTML = "Next floor costs: $" + ( (tower.length + (tower.length/10)) * 1000);
     }
-
 }

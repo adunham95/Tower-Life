@@ -1,9 +1,11 @@
-let cacheName = 'towerlife-0.7.0';
+let cacheName = 'towerlife-0.7.1';
 let filesToCache = [
     '/',
     '/index.html',
     '/styles.css',
-    '/script.js'
+    '/script.js',
+    '/fontawesome.js',
+    '/solid.js'
 ];
 self.addEventListener('install', function(e) {
     console.log('[ServiceWorker] Install');

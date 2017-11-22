@@ -22,33 +22,20 @@
 <body>
 <div class="nav">
     <div id="navTop">
-        <button onclick="toggleNav('navExpanded')" class="btn">&#9776</button>
+        <button onclick="toggleNav('navExpanded')" class="btn"><i class="fa fa-chevron-double-down"></i></button>
         <p id="brand" onclick="cheater()">Tower Life</p>
         <p id="money" ></p>
     </div>
     <div id="navExpanded">
         <div id="storeMenu">
-            <!--<a onclick="createNewFloor('random')" href="#" >Random Store</a>-->
-            <!--<a onclick="newTower()" href="#">Random Person</a>-->
-            <!--<a onclick="newTower()" href="#">Reset</a>-->
-            <!--<a onclick="toggleNav('createStore')" href="#">New Person</a>-->
-            <!--<a onclick="toggleNav('createStore')" href="#">New Store</a>-->
 
-            <a onclick="toggleNav('createStore')" href="#">New Store</a>
-            <a onclick="createNewFloor('random')" href="#" >Random Store</a>
-            <a onclick="newTower()" href="#">Reset</a>
+            <a onclick="toggleNav('createStore')" href="#"><i class="fa fa-shopping-cart"></i> Store</a>
+            <a onclick="toggleNav('createApt')" href="#" class="beta"><i class="fa fa-university"></i> Apartment</a>
+            <a onclick="toggleNav('createPerson')" href="#" class="beta"><i class="fa fa-users"></i> Citizens</a>
+            <a onclick="newTower()" href="#"><i class="fa fa-sign-out-alt"></i> Reset</a>
         </div>
-        <!--<div id="peopleMenu">-->
-            <!--<a href="#newPerson">New Person</a>-->
-            <!--<a onclick="createNewPerson('random')" href="#">New Random Person</a>-->
-        <!--</div>-->
-        <div id="createStore">
+        <div id="createStore" class="create">
             <input id="name" type="text" value="Store Name">
-
-            <select id="type">
-                <option value="Store">Store</option>
-                <!--<option value="Apartment">Apartment</option>-->
-            </select>
 
             <select id="category">
                 <option value="Car Dealership">Car Dealership</option>
@@ -93,7 +80,32 @@
                 <!--<option value="#FFFFFF" style="background-color: #FFFFFF">White</option>-->
             </select>
 
-            <a onclick="createNewFloor('custom')" href="#" >Create New</a>
+            <div style="display: flex; justify-content: space-between">
+                <a onclick="createNewFloor('random', 'Store')" href="#" >Random Store</a>
+                <div></div>
+                <a onclick="createNewFloor('custom', 'Store')" href="#" >Create New</a>
+            </div>
+        </div>
+
+
+        <div id="createApt" class="create">
+            <input id="nameApt" type="text" value="Apartment Name">
+            <div style="display: flex; justify-content: space-between">
+                <a onclick="createNewFloor('random', 'Apartment')" href="#" >Create Random</a>
+                <div></div>
+                <a onclick="createNewFloor('custom', 'Apartment')" href="#" >Create New</a>
+            </div>
+        </div>
+
+
+        <div id="createPerson" class="create">
+            <input id="fName" type="text" value="First Name">
+            <input id="lName" type="text" value="Last Name">
+            <div style="display: flex; justify-content: space-between">
+                <a onclick="createNewPerson('random')" href="#" >Create Random</a>
+                <div></div>
+                <a onclick="createNewPerson('custom')" href="#" >Create New</a>
+            </div>
         </div>
     </div>
     <div id="error"></div>
@@ -105,19 +117,6 @@
         <input id="devText" type="text" placeholder="Dev Options">
         <button id="devSubmit" onclick="devOption()">Submit</button>
     </div>
-    <!--<div id="newPerson" class="modal-window">-->
-        <!--<div>-->
-            <!--<a href="#modal-close" title="Close" class="modal-close">Close</a>-->
-            <!--<h1>New Store</h1>-->
-
-            <!--<input id="firstName" type="text" placeholder="First Name">-->
-            <!--<input id="lastName" type="text" placeholder="Last Name">-->
-            <!--<textarea id="bio" placeholder="Bio"></textarea>-->
-
-            <!--<a onclick="createNewPerson('custom')" href="#modal-close" class="btn">Add new Person</a>-->
-
-        <!--</div>-->
-    <!--</div>-->
 
 
 
@@ -130,5 +129,7 @@
         }
     </script>
     <script async src="script.js"></script>
+    <script defer src="fontawesome.js"></script>
+    <script defer src="solid.js"></script>
 </body>
 </html>
