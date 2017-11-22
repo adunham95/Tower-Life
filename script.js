@@ -409,8 +409,8 @@ function stockRoom(e, i) {
     supplyRoom.disabled = true;
     e.stopImmediatePropagation();
 
-    console.log(supplyRoom.disabled);
-    console.log(supplyRoom.innerText);
+    // console.log(supplyRoom.disabled);
+    // console.log(supplyRoom.innerText);
 
     let timeInMinutes = tower[i].stockRoom.multiplier || 1;
     let currentTime = Date.parse(new Date());
@@ -441,13 +441,13 @@ function stockRoom(e, i) {
         supplyRoom.disabled = false;
     }
 
-    console.log(tower[i]);
+    // console.log(tower[i]);
 }
 
 function wallet(amount) {
     //Creates a temp value for the money amount
     let newMoney = parseInt(money) + parseInt(amount);
-    console.log(money +"+"+ parseInt(amount) +"="+parseInt(newMoney));
+    // console.log(money +"+"+ parseInt(amount) +"="+parseInt(newMoney));
 
     //Sees is you have enough money to purchase the item
     if(parseInt(newMoney) < 0){
@@ -545,6 +545,14 @@ function devOption() {
     else if(option === 'broke'){
         wallet(-money)
     }
+    //money-amount
+    else if(option.startsWith('money')){
+        let optionArray = option.split("-");
+        // console.log(optionArray);
+        if(optionArray===2){
+            wallet(optionArray[1])
+        }
+    }
     else if(option === 'creative-on'){
         window.localStorage.setItem("CreativeMode", 'enabled');
         let e =document.getElementsByClassName('nav')[0];
@@ -562,12 +570,26 @@ function devOption() {
             apt[i].style.display = 'inherit';
         }
     }
+    //customFloor-name-category-color
+    else if(option.startsWith('customFloor')){
+        let contentArray=option.split("-");
+        // console.log(contentArray);
+        if(contentArray.length === 4){
+            let newFloor = new Store(contentArray[1], contentArray[2], [contentArray[3]], 1 + (parseInt(tower.length)/10 ));
+            // console.log(newFloor);
+            tower.push(newFloor);
+            // console.log(tower);
+            window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
+            displayFloor(tower.length - 1);
+            //Displays the cost of the next floor
+            document.getElementById("nextTower").innerHTML = "Next floor costs: $" + ( (tower.length + (tower.length/10)) * 1000);
+        }
+    }
     else if(option === 'tesla'){
         let newFloor = new Store('Tesla', "Car Company", ["#cc0000"], 1 + (parseInt(tower.length)/10 ));
-        console.log(newFloor);
-
+        // console.log(newFloor);
         tower.push(newFloor);
-        console.log(tower);
+        // console.log(tower);
         window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
         displayFloor(tower.length - 1);
         //Displays the cost of the next floor
@@ -599,23 +621,20 @@ function devOption() {
 
     }
     else if(option === 'panther'){
-        let newFloor = new Store('Panthers', "Sports Team", ["#0085CA"], 1 + (parseInt(tower.length)/10 ));
-        console.log(newFloor);
-
+        let newFloor = new Store('Panthers', "Sports Team", ["linear-gradient(135deg, rgba(0,133,202,1) 0%, rgba(165,172,175,1) 100%)"], 1 + (parseInt(tower.length)/10 ));
+        // console.log(newFloor);
         tower.push(newFloor);
-        console.log(tower);
+        // console.log(tower);
         window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
         displayFloor(tower.length - 1);
         //Displays the cost of the next floor
         document.getElementById("nextTower").innerHTML = "Next floor costs: $" + ( (tower.length + (tower.length/10)) * 1000);
     }
-
     else if(option === 'xbox'){
         let newFloor = new Store('Xbox', "Game Store", ["linear-gradient(45deg, rgba(82,176,67,1) 0%, rgba(0,0,0,1) 100%)"], 1 + (parseInt(tower.length)/10 ));
-        console.log(newFloor);
-
+        // console.log(newFloor);
         tower.push(newFloor);
-        console.log(tower);
+        // console.log(tower);
         window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
         displayFloor(tower.length - 1);
         //Displays the cost of the next floor
