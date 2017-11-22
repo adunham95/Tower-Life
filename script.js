@@ -609,4 +609,16 @@ function devOption() {
         //Displays the cost of the next floor
         document.getElementById("nextTower").innerHTML = "Next floor costs: $" + ( (tower.length + (tower.length/10)) * 1000);
     }
+
+    else if(option === 'xbox'){
+        let newFloor = new Store('Xbox', "Game Store", ["linear-gradient(45deg, rgba(82,176,67,1) 0%, rgba(0,0,0,1) 100%)"], 1 + (parseInt(tower.length)/10 ));
+        console.log(newFloor);
+
+        tower.push(newFloor);
+        console.log(tower);
+        window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
+        displayFloor(tower.length - 1);
+        //Displays the cost of the next floor
+        document.getElementById("nextTower").innerHTML = "Next floor costs: $" + ( (tower.length + (tower.length/10)) * 1000);
+    }
 }
