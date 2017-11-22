@@ -1,6 +1,5 @@
 let tower = [];
 let money;
-let citizen = [];
 let cheat = 0;
 
 //Creates a new tower
@@ -87,9 +86,6 @@ function onLoad() {
     //Displays the amount of the money the user has
     money = window.localStorage.getItem("Money");
     document.getElementById("money").innerText = '$'+money;
-
-    //Gets the tenants
-    citizen = JSON.parse(window.localStorage.getItem("Tenates"));
 
     //Displays the cost of the next floor
     document.getElementById("nextTower").innerHTML = "Next floor costs: $" + ( (tower.length + (tower.length/10)) * 1000);
@@ -286,11 +282,11 @@ function createNewPerson() {
 
 function getRandom(type) {
     if(type === "color"){
-        let colors = ['#f7556e', '#b3187d', '#d44d47', '#7fafea', '#aa78db', '#8b6715', '#3a8f96', '#7b35b0', '#98d70c', '#d0793e'];
+        let colors = ["#8B0000","#F44336","#E91E63","#9C27B0","#673AB7","#3F51B5","#2196F3","#03A9F4","#00BCD4","#009688","#4CAF50","#8BC34A","#CDDC39","#FFEB3B","#FFC107","#FF9800","#FF5722","#795548","#9E9E9E","#000000"];
         return colors[Math.floor(Math.random() * colors.length)]
     }
     else if (type === "first"){
-        let first = ["John", "Steve"];
+        let first = ["John", "Steve", "Anthony"];
         return first[Math.floor(Math.random() * (first.length))];
     }
     else if (type === "last"){
@@ -298,7 +294,7 @@ function getRandom(type) {
         return last[Math.floor(Math.random() * last.length)];
     }
     else if (type === 'category'){
-        let categories = ["Car Dealership", "Grocery Store", "Jewellery Store", "Flower Store", "Beauty Salon", "Butcher", "Toy Store", "Music Store", "Clothes Store","Book Store","Tech Store","Sports Store","E-Store","Dollar Store"];
+        let categories = ["Dealership", "Grocery", "Jewellery", "Flower", "Salon", "Butcher", "Toy", "Music", "Clothes","Book","Tech","Sports","E-Store","Dollar"];
         return categories[Math.floor(Math.random() * categories.length)]
     }
     else if(type === 'aptName'){
@@ -406,7 +402,6 @@ function toggleNav(item) {
         document.getElementById(item).style.display = "flex";
     }
 }
-
 
 function stockRoom(e, i) {
 
