@@ -8,7 +8,6 @@ function newTower() {
 
     //Sets Base Values
     tower = [];
-    citizen = [];
     money = 5000;
 
     //Adds the lobby to the tower
@@ -18,17 +17,15 @@ function newTower() {
         type:"Store",
         color:["linear-gradient(to right, #16a085, #f4d03f)"], //Primary Secondary
     }];
-    //Rerenders the tower
-    render()
+    //ReRenders the tower
+    render();
 
     document.getElementById("money").innerText = '$'+money;
-    citizen = [];
     toggleNav('navExpanded');
 
     window.localStorage.setItem("TowerID", generateID());
     window.localStorage.setItem("Money", 5000);
     window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
-    window.localStorage.setItem("Tenates", JSON.stringify(citizen));
 
     //Displays the cost of the next floor
     document.getElementById("nextTower").innerHTML = "Next floor costs: $" + ( (tower.length + (tower.length/10)) * 1000);
@@ -66,7 +63,7 @@ function onLoad() {
     //Dev Check
     let devOptions = window.localStorage.getItem("DevOptions");
     let devCreative = window.localStorage.getItem("CreativeMode");
-    let devApartments = window.localStorage.getItem("DevApartment");
+    let betaFeature = window.localStorage.getItem("BetaFeatures");
     if(devOptions === 'enabled'){
         document.getElementById('devOptions').style.display = 'flex';
         document.getElementById('tower').style.marginBottom = '50px';
@@ -75,8 +72,9 @@ function onLoad() {
             e.style.backgroundColor ='#F4511E';
         }
     }
-    if(devApartments === 'enabled'){
+    if(betaFeature === 'enabled'){
         let beta = document.getElementsByClassName('beta');
+        document.getElementById("brand").innerText = "Tower Life BETA";
         for (let i=0; i<beta.length; i++){
             beta[i].style.display = 'inherit';
         }
@@ -608,17 +606,42 @@ function devOption() {
             wallet(optionArray[1])
         }
     }
-    else if(option === 'creative-on'){
-        displayMessage('Creative Mode On', 'dev');
-        window.localStorage.setItem("CreativeMode", 'enabled');
-        let e =document.getElementsByClassName('nav')[0];
-        e.style.backgroundColor ='#F4511E';
+    else if(option.startsWith('creative')){
+        let optionArray = option.split("-");
+        if(optionArray[1] === 'on'){
+            displayMessage('Creative Mode On', 'dev');
+            window.localStorage.setItem("CreativeMode", 'enabled');
+            let e =document.getElementsByClassName('nav')[0];
+            e.style.backgroundColor ='#F4511E';
+        }
+        else if(optionArray[1] === 'off'){
+            displayMessage('Creative Mode Off', 'dev');
+            window.localStorage.setItem("CreativeMode", 'disabled');
+            let e =document.getElementsByClassName('nav')[0];
+            e.style.backgroundColor ='#607D8B';
+        }
     }
-    else if(option === 'creative-off'){
-        displayMessage('Creative Mode Off', 'dev');
-        window.localStorage.setItem("CreativeMode", 'disabled');
-        let e =document.getElementsByClassName('nav')[0];
-        e.style.backgroundColor ='#607D8B';
+    //Beta features
+    else if(option.startsWith('beta')){
+        let optionArray = option.split("-");
+        if(optionArray[1] === 'on'){
+            displayMessage('Beta Features Enabled', 'dev');
+            window.localStorage.setItem("BetaFeatures", 'enabled');
+            let beta = document.getElementsByClassName('beta');
+            document.getElementById("brand").innerText = "Tower Life BETA";
+            for (let i=0; i<beta.length; i++){
+                beta[i].style.display = 'inherit';
+            }
+        }
+        else if(optionArray[1] === 'off'){
+            displayMessage('Beta Features Disabled', 'dev');
+            window.localStorage.setItem("BetaFeatures", 'disabled');
+            let beta = document.getElementsByClassName('beta');
+            document.getElementById("brand").innerText = "Tower Life";
+            for (let i=0; i<beta.length; i++){
+                beta[i].style.display = 'none';
+            }
+        }
     }
     //customFloor.name.category.color
     else if(option.startsWith('customFloor')){
@@ -691,4 +714,23 @@ function devOption() {
         //Displays the cost of the next floor
         document.getElementById("nextTower").innerHTML = "Next floor costs: $" + ( (tower.length + (tower.length/10)) * 1000);
     }
+}
+
+function rent() {
+    let citizenCount=0;
+    let rent=0;
+
+    for(let i=0; i<tower.length;i++){
+        console.log("Type: " + tower[i].type + "Level:" + i);
+        if(tower[i].type === 'Apartment'){
+            console.log(tower[i].residents);
+            for(let j=0; j<tower[i].residents.length; j++){
+                citizenCount++;
+                console.log(tower[i].residents[j]);
+            }
+        }
+    }
+
+    rent =+ (citizenCount * 200);
+    console.log(rent);
 }
