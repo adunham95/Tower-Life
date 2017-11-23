@@ -28,14 +28,14 @@
     </div>
     <div id="navExpanded">
         <div id="storeMenu">
-
-            <a onclick="toggleNav('createStore')" href="#"><i class="fa fa-shopping-cart"></i> Store</a>
-            <a onclick="toggleNav('createApt')" href="#" class="beta"><i class="fa fa-university"></i> Apartment</a>
-            <a onclick="toggleNav('createPerson')" href="#" class="beta"><i class="fa fa-users"></i> Citizens</a>
+            <a onclick="toggleNav('create', 'store')" href="#"><i class="fa fa-shopping-cart"></i> Store</a>
+            <a onclick="toggleNav('create', 'apartment')" href="#"><i class="fa fa-university"></i> Apartment</a>
+            <a onclick="toggleNav('create', 'person')" href="#" class="beta"><i class="fa fa-users"></i> Citizens</a>
             <a onclick="newTower()" href="#"><i class="fa fa-sign-out-alt"></i> Reset</a>
         </div>
-        <div id="createStore" class="create">
-            <input id="name" type="text" value="Store Name">
+
+        <div id="create" class="create">
+            <input id="name" type="text" value="Level Name">
 
             <select id="category">
                 <option value="Car Dealership">Car Dealership</option>
@@ -81,31 +81,28 @@
                 <!--<option value="#FFFFFF" style="background-color: #FFFFFF">White</option>-->
             </select>
 
-            <div style="display: flex; justify-content: space-between">
+            <input id="fName" type="text" value="First Name">
+            <input id="lName" type="text" value="Last Name">
+
+            <div id="newStore" style="display: none; justify-content: space-between">
                 <a onclick="createNewFloor('random', 'Store')" href="#" >Random Store</a>
                 <div></div>
                 <a onclick="createNewFloor('custom', 'Store')" href="#" >Create New</a>
             </div>
-        </div>
 
-        <div id="createApt" class="create">
-            <input id="nameApt" type="text" value="Apartment Name">
-            <div style="display: flex; justify-content: space-between">
-                <a onclick="createNewFloor('random', 'Apartment')" href="#" >Create Random</a>
+            <div id="newApt" style="display: none; justify-content: space-between">
+                <a onclick="createNewFloor('random', 'Apartment')" href="#" >Random Apartment</a>
                 <div></div>
                 <a onclick="createNewFloor('custom', 'Apartment')" href="#" >Create New</a>
             </div>
-        </div>
 
-        <div id="createPerson" class="create">
-            <input id="fName" type="text" value="First Name">
-            <input id="lName" type="text" value="Last Name">
-            <div style="display: flex; justify-content: space-between">
-                <a onclick="createNewPerson('random')" href="#" >Create Random</a>
+            <div id="newPerson" style="display: none; justify-content: space-between">
+                <a onclick="createNewPerson('random')" href="#" >Random Person</a>
                 <div></div>
                 <a onclick="createNewPerson('custom')" href="#" >Create New</a>
             </div>
         </div>
+
     </div>
     <div id="message"></div>
 </div>

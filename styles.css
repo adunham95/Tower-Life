@@ -28,6 +28,7 @@ body{
 .elevator {
     width: 100px;
     height: 100px;
+    min-width: 100px;
     background: #546E7A;
     border: solid black 1px;
     align-items: center;
@@ -88,6 +89,8 @@ body{
     font-size: 25px;
     display: flex;
     justify-content: space-between;
+    overflow: hidden;
+    height: 30px;
 }
 
 .storeItems{
@@ -95,6 +98,7 @@ body{
     display: flex;
     justify-content: flex-end;
     align-content: center;
+    margin: 7px 0px;
 }
 
 .stockRoom button{
@@ -146,32 +150,18 @@ body{
     height: 50px;
 }
 
-
-
-
-#createStore {
+#create{
     display: none;
+}
+
+.create{
     flex-direction: column;
     justify-content: space-around;
     padding: 10px;
 }
-
-#createApt {
-    display: none;
-    flex-direction: column;
-    justify-content: space-around;
-    padding: 10px;
-}
-
-#createPerson {
-    display: none;
-    flex-direction: column;
-    justify-content: space-around;
-    padding: 10px;
-}
-
 
 .create input, select{
+    display: none;
     margin: 5px;
     background: transparent;
     padding: 5px;
@@ -186,7 +176,6 @@ body{
 #color option{
     color: white;
 }
-
 
 #peopleMenu {
     display: flex;
@@ -204,6 +193,7 @@ body{
     display: none;
     justify-content: center;
     align-items: center;
+    border-top: white solid 1px;
 }
 
 .btn {
@@ -214,7 +204,6 @@ body{
 
 #money{
     color: white !important;
-
 }
 
 #brand{
@@ -244,10 +233,11 @@ a {
     color: white;
     border: 1px white solid;
     padding: 5px;
-    border-radius: 50px;
+    border-radius: 10px;
     font-size: 14pt;
     margin: 5px 0;
     text-align: center;
+    background: transparent;
 }
 
 input.stockBtn {
@@ -257,14 +247,14 @@ input.stockBtn {
 }
 
 .update{
-    background: darkgreen;
-
+    background: green;
+    border: none;
 }
 
 .delete{
     background: darkred;
+    border: none;
 }
-
 
 /*DevOptions*/
 #devOptions{

@@ -172,7 +172,6 @@ function generateID() {
 function createNewFloor(randomness, type) {
     let newFloor;
     let name = document.getElementById("name").value;
-    let nameApt = document.getElementById('nameApt').value;
     let category;
     let color = [document.getElementById("color").value];
     let floor = (tower.length);
@@ -192,21 +191,21 @@ function createNewFloor(randomness, type) {
         color = [getRandom("color")];
     }
 
-    //If the name is blank it will be the category value
-    if(name === 'Store Name' || name === ''){
-        name = category;
-    }
-    else if (nameApt === 'Apartment Name' || nameApt === ''){
-        nameApt = getRandom('aptName')
-    }
-
     //If Store or apartment
     if (type === "Store"){
+        //If the name is blank it will be the category value
+        if(name === 'Level Name' || name === ''){
+            name = category;
+        }
         newFloor = new Store(name, category, color, 1 + (parseInt(floor)/10 ));
         //Closes the create menu
     }
     else if(type === 'Apartment') {
-        newFloor = new Apartment(nameApt, [getRandom("color")]);
+        //If the name is blank it will be get a random name
+        if (name === 'Level Name' || name === ''){
+            name = getRandom('aptName')
+        }
+        newFloor = new Apartment(name, color);
     }
 
     // console.table(newFloor);
@@ -261,7 +260,8 @@ function createNewPerson() {
         else if(tower[i].type === "Apartment"){
             home = i;
             if(tower[i].residents.length === 4){
-                displayMessage("Four residents per apartment", 'error')
+                displayMessage("Four residents per apartment", 'error');
+                continue
             }
             else {
                 newPerson = new Person(fname, lname, home, 2);
@@ -398,13 +398,46 @@ function displayFloor(i) {
     targetElement.appendChild(divFloor);
 }
 
-function toggleNav(item) {
+function toggleNav(item, type) {
+    //if displayed hide
     if(document.getElementById(item).style.display === "flex"){
         document.getElementById(item).style.display = "none";
     }
+    //If hidden display
     else{
         document.getElementById(item).style.display = "flex";
     }
+    if(type === 'store'){
+        document.getElementById('name').style.display = "inherit";
+        document.getElementById('category').style.display = "inherit";
+        document.getElementById('color').style.display = "inherit";
+        document.getElementById('fName').style.display = "none";
+        document.getElementById('lName').style.display = "none";
+        document.getElementById('newStore').style.display = "inherit";
+        document.getElementById('newApt').style.display = "none";
+        document.getElementById('newPerson').style.display = "none";
+    }
+    else if(type === 'apartment'){
+        document.getElementById('name').style.display = "inherit";
+        document.getElementById('category').style.display = "none";
+        document.getElementById('color').style.display = "inherit";
+        document.getElementById('fName').style.display = "none";
+        document.getElementById('lName').style.display = "none";
+        document.getElementById('newStore').style.display = "none";
+        document.getElementById('newApt').style.display = "inherit";
+        document.getElementById('newPerson').style.display = "none";
+    }
+    else if(type === 'person'){
+        document.getElementById('name').style.display = "none";
+        document.getElementById('category').style.display = "none";
+        document.getElementById('color').style.display = "none";
+        document.getElementById('fName').style.display = "inherit";
+        document.getElementById('lName').style.display = "inherit";
+        document.getElementById('newStore').style.display = "none";
+        document.getElementById('newApt').style.display = "none";
+        document.getElementById('newPerson').style.display = "inherit";
+    }
+
 }
 
 function stockRoom(e, i) {
@@ -539,6 +572,7 @@ function cheater() {
         document.getElementById('devOptions').style.display = 'flex';
         displayMessage("DevOps Enabled", 'dev');
         document.getElementById('tower').style.marginBottom = '50px';
+        cheat = 0;
     }
 }
 
@@ -558,16 +592,19 @@ function devOption() {
         e.style.backgroundColor ='#607D8B';
     }
     else if(option === 'millionaire'){
+        displayMessage('Millionaire Enabled', 'dev');
         wallet(1000000)
     }
     else if(option === 'broke'){
+        displayMessage('Broke Enabled', 'dev');
         wallet(-money)
     }
     //money-amount
     else if(option.startsWith('money')){
+        displayMessage('Added money', 'dev');
         let optionArray = option.split("-");
         // console.log(optionArray);
-        if(optionArray===2){
+        if(optionArray.length===2){
             wallet(optionArray[1])
         }
     }
@@ -582,13 +619,6 @@ function devOption() {
         window.localStorage.setItem("CreativeMode", 'disabled');
         let e =document.getElementsByClassName('nav')[0];
         e.style.backgroundColor ='#607D8B';
-    }
-    else if (option === 'enable-apt'){
-        window.localStorage.setItem("DevApartment", 'enabled');
-        let apt = document.getElementsByClassName('beta');
-        for (let i=0; i<apt.length; i++){
-            apt[i].style.display = 'inherit';
-        }
     }
     //customFloor.name.category.color
     else if(option.startsWith('customFloor')){
