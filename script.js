@@ -7,7 +7,6 @@ function newTower() {
     // console.log("New Tower");
 
     //Sets Base Values
-    document.getElementById("tower").innerHTML = '';
     tower = [];
     citizen = [];
     money = 5000;
@@ -17,10 +16,10 @@ function newTower() {
         id:"lobby",
         name:"Lobby",
         type:"Store",
-        color:["#DC143C","#1E90FF"] //Primary Secondary
+        color:["linear-gradient(to right, #16a085, #f4d03f)"], //Primary Secondary
     }];
-    //Displays the lobby
-    displayFloor(0);
+    //Rerenders the tower
+    render()
 
     document.getElementById("money").innerText = '$'+money;
     citizen = [];
@@ -227,6 +226,7 @@ function createNewFloor(randomness, type) {
 
     if(purchased === true){
         toggleNav('navExpanded');
+        displayMessage(newFloor.name + ' added', 'success');
         tower.push(newFloor);
         // console.log(tower);
         window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
@@ -256,12 +256,12 @@ function createNewPerson() {
 
     for(let i = 0; i <= tower.length; i++) {
         if(i === tower.length){
-            displayError("There are no available apartments")
+            displayMessage("There are no available apartments", 'error')
         }
         else if(tower[i].type === "Apartment"){
             home = i;
             if(tower[i].residents.length === 4){
-                displayError("Four residents per apartment")
+                displayMessage("Four residents per apartment", 'error')
             }
             else {
                 newPerson = new Person(fname, lname, home, 2);
@@ -270,14 +270,12 @@ function createNewPerson() {
                 // citizen.push(newPerson);
                 // window.localStorage.setItem("Tenates", JSON.stringify(citizen));
                 window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
-
+                displayMessage(fname + ' ' + lname + ' added', 'success')
             }
             render();
             break
         }
     }
-
-
 }
 
 function getRandom(type) {
@@ -294,7 +292,7 @@ function getRandom(type) {
         return last[Math.floor(Math.random() * last.length)];
     }
     else if (type === 'category'){
-        let categories = ["Dealership", "Grocery", "Jewellery", "Flower", "Salon", "Butcher", "Toy", "Music", "Clothes","Book","Tech","Sports","E-Store","Dollar"];
+        let categories = ["Dealership", "Grocery Store", "Jewellery Store", "Flower Store", "Beauty Salon", "Butcher", "Toy Store", "Music", "Clothe Store","Book Store","Tech Store","Sports","E-Store","Dollar Store"];
         return categories[Math.floor(Math.random() * categories.length)]
     }
     else if(type === 'aptName'){
@@ -331,11 +329,12 @@ function displayFloor(i) {
     else if(tower[i].type === 'Apartment'){
         divRoom.innerHTML = `
             <div class="storeFront">
-                <div>${tower[i].name}</div>
-                <div></div>
-                <div>
-                    <button onclick="toggleNav('${tower[i].id}C')">Citizens</button>
+                 <div class="storeBanner">
+                    <span>${tower[i].name}</span>
                     <button onclick="toggleNav('${tower[i].id}SR')" class="info"><i class="fa fa-ellipsis-v-alt"></i></button>
+                </div>
+                <div class="storeItems">
+                    <button onclick="toggleNav('${tower[i].id}C')">Citizens</button>
                 </div>
             </div>
             <div class="stockRoom" id="${tower[i].id}SR">
@@ -353,10 +352,12 @@ function displayFloor(i) {
     else if(tower[i].stockRoom.count >= 1000){
         divRoom.innerHTML = `
             <div class="storeFront">
-                <div>${tower[i].name}</div>
-                <div>
-                     <button id="${tower[i].id}stock" disabled>Stocking...</button>
+                 <div class="storeBanner">
+                    <span>${tower[i].name}</span>
                     <button onclick="toggleNav('${tower[i].id}SR')" class="info"><i class="fa fa-ellipsis-v-alt"></i></button>
+                </div>
+                <div class="storeItems">
+                     <button id="${tower[i].id}stock" disabled>Stocking...</button>
                 </div>
             </div>
             <div class="stockRoom" id="${tower[i].id}SR">
@@ -368,10 +369,13 @@ function displayFloor(i) {
     else {
         divRoom.innerHTML = `
             <div class="storeFront">
-                <div>${tower[i].name}</div>
-                <div>
-                    <button id="${tower[i].id}stock" onclick="stockRoom(event, ${i});">Stock floor: $${(multiplier(i) * 250)}</button>
-                    <button onclick="toggleNav('${tower[i].id}SR')" class="info"><i class="fa fa-ellipsis-v-alt"></i></button>              
+                <div class="storeBanner">
+                    <span>${tower[i].name}</span>
+                    <button onclick="toggleNav('${tower[i].id}SR')" class="info"><i class="fa fa-ellipsis-v-alt"></i></button>
+                </div>
+                <div class="storeItems">
+                    <!--<div></div>-->
+                    <button id="${tower[i].id}stock" onclick="stockRoom(event, ${i});">Stock floor: $${(multiplier(i) * 250)}</buttoon>
                 </div>
             </div>
             <div class="stockRoom" id="${tower[i].id}SR">
@@ -451,7 +455,7 @@ function wallet(amount) {
 
     //Sees is you have enough money to purchase the item
     if(parseInt(newMoney) < 0){
-        displayError("Not enough money");
+        displayMessage("Not enough money", 'error');
         return false
     }
     else{
@@ -467,15 +471,25 @@ function wallet(amount) {
     }
 }
 
-function displayError(message) {
+function displayMessage(message, type) {
     //Displays the banner
-    document.getElementById("error").style.display = "flex";
+    document.getElementById("message").style.display = "flex";
     //Displays the message in the banner
-    document.getElementById("error").innerHTML = `<p>${message}</p>`;
+    document.getElementById("message").innerHTML = `<p>${message}</p>`;
+
+    if(type === 'error'){
+        document.getElementById("message").style.background = 'darkred'
+    }
+    else if(type === 'success'){
+        document.getElementById("message").style.background = 'darkgreen'
+    }
+    else if(type==='dev'){
+        document.getElementById("message").style.background = '#F4511E'
+    }
 
     //Hides the banner after 3 seconds
     setTimeout(function(){
-        document.getElementById("error").style.display = "none"
+        document.getElementById("message").style.display = "none"
         }, 3000);
 }
 
@@ -506,14 +520,12 @@ function updateFloor(i) {
 
 function deleteFloor(i) {
     // console.log(tower[i].id + ' deleted');
+    displayMessage(tower[i].name + ' deleted', 'error');
     tower = tower.filter(item => item !== tower[i]);
     //Stores new name
     window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
     //Rebuilds the tower
-    document.getElementById("tower").innerHTML = '';
-    for(let i = 0; i < tower.length; i++) {
-        displayFloor(i);
-    }
+    render()
     //Displays the cost of the next floor since the height has changed
     document.getElementById("nextTower").innerHTML = "Next floor costs: $" + ( (tower.length + (tower.length/10)) * 1000);
 }
@@ -525,7 +537,7 @@ function cheater() {
         console.log("DevOptions enabled");
         window.localStorage.setItem("DevOptions", 'enabled');
         document.getElementById('devOptions').style.display = 'flex';
-        displayError("DevOps Enabled");
+        displayMessage("DevOps Enabled", 'dev');
         document.getElementById('tower').style.marginBottom = '50px';
     }
 }
@@ -538,6 +550,12 @@ function devOption() {
         window.localStorage.setItem("DevOptions", 'disabled');
         document.getElementById('devOptions').style.display = 'none';
         document.getElementById('tower').style.marginBottom = '0px';
+        displayMessage('DevOptions Off', 'dev');
+
+        //Turns off creative mode
+        window.localStorage.setItem("CreativeMode", 'disabled');
+        let e =document.getElementsByClassName('nav')[0];
+        e.style.backgroundColor ='#607D8B';
     }
     else if(option === 'millionaire'){
         wallet(1000000)
@@ -554,11 +572,13 @@ function devOption() {
         }
     }
     else if(option === 'creative-on'){
+        displayMessage('Creative Mode On', 'dev');
         window.localStorage.setItem("CreativeMode", 'enabled');
         let e =document.getElementsByClassName('nav')[0];
         e.style.backgroundColor ='#F4511E';
     }
     else if(option === 'creative-off'){
+        displayMessage('Creative Mode Off', 'dev');
         window.localStorage.setItem("CreativeMode", 'disabled');
         let e =document.getElementsByClassName('nav')[0];
         e.style.backgroundColor ='#607D8B';
@@ -570,9 +590,9 @@ function devOption() {
             apt[i].style.display = 'inherit';
         }
     }
-    //customFloor-name-category-color
+    //customFloor.name.category.color
     else if(option.startsWith('customFloor')){
-        let contentArray=option.split("-");
+        let contentArray=option.split(".");
         // console.log(contentArray);
         if(contentArray.length === 4){
             let newFloor = new Store(contentArray[1], contentArray[2], [contentArray[3]], 1 + (parseInt(tower.length)/10 ));
@@ -583,6 +603,7 @@ function devOption() {
             displayFloor(tower.length - 1);
             //Displays the cost of the next floor
             document.getElementById("nextTower").innerHTML = "Next floor costs: $" + ( (tower.length + (tower.length/10)) * 1000);
+            displayMessage(contentArray[1] + ' added', 'success');
         }
     }
     else if(option === 'tesla'){
@@ -598,12 +619,12 @@ function devOption() {
     else if(option === 'elon'){
         for(let i = 0; i <= tower.length; i++) {
             if(i === tower.length){
-                displayError("There are no available apartments")
+                displayMessage("There are no available apartments", 'error')
             }
             else if(tower[i].type === "Apartment"){
                 let home = i;
                 if(tower[i].residents.length === 4){
-                    displayError("Four residents per apartment")
+                    displayMessage("Four residents per apartment", 'error')
                 }
                 else {
                     let newPerson = new Person("Elon", "Musk", home, 2);

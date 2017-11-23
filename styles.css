@@ -1,6 +1,7 @@
 body{
     margin: 0;
-    background: green;
+    background: linear-gradient(to bottom, #52c234, #061700);
+    height: 100vh;
 }
 
 #tower {
@@ -12,11 +13,12 @@ body{
 #nextTower{
     width: 100%;
     margin-top: 50px;
-    height: 40px;
+    height: 50px;
     color: white;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 30px;
 }
 
 .floor{
@@ -65,10 +67,10 @@ body{
 
 .storeFront {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    height: 79px;
+    height: 89px;
     padding: 5px;
 }
 
@@ -78,6 +80,21 @@ body{
     justify-content: space-around;
     padding: 10px;
     border-top: white 1px solid;
+}
+
+.storeBanner{
+    border-bottom: white solid 1px;
+    width: 100%;
+    font-size: 25px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.storeItems{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-content: center;
 }
 
 .stockRoom button{
@@ -120,17 +137,15 @@ body{
 #storeMenu{
     display: flex;
     flex-direction: row;
-    align-content: center;
+    align-items: center;
     justify-content: space-around;
     flex-wrap: wrap;
     /*overflow-x: scroll;*/
     /*overflow-y: inherit;*/
     text-align: center;
+    height: 50px;
 }
 
-/*#storeMenu a {*/
-    /*padding: 10px;*/
-/*}*/
 
 
 
@@ -182,9 +197,8 @@ body{
     height: 50px;
 }
 
-#error {
+#message {
     height: 50px;
-    background: darkred;
     color: white;
     width: 100%;
     display: none;
