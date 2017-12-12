@@ -54,6 +54,7 @@ body{
     border: 1px white solid;
     padding: 10px;
     border-radius: 50px;
+    margin: 0px 5px;
 }
 
 .room button.info{
@@ -247,12 +248,12 @@ input.stockBtn {
 }
 
 .update{
-    background: green;
+    background: #43A047;
     border: none;
 }
 
 .delete{
-    background: darkred;
+    background: #D50000;
     border: none;
 }
 

@@ -72,13 +72,6 @@ function onLoad() {
             e.style.backgroundColor ='#F4511E';
         }
     }
-    if(betaFeature === 'enabled'){
-        let beta = document.getElementsByClassName('beta');
-        document.getElementById("brand").innerText = "Tower Life BETA";
-        for (let i=0; i<beta.length; i++){
-            beta[i].style.display = 'inherit';
-        }
-    }
 
     //Displays the amount of the money the user has
     money = window.localStorage.getItem("Money");
@@ -89,31 +82,47 @@ function onLoad() {
 
     render();
 
+    //Checks to display beta features
+    if(betaFeature === 'enabled'){
+        let beta = document.getElementsByClassName('beta');
+        document.getElementById("brand").innerText = "Tower Life BETA";
+        //TODO fix displaying and hiding beta features
+        // for (let i=0; i<=beta.length; i++){
+        //     beta[i].style.display = "inherit";
+        // }
+    }
+
     //Watches the stockroom expiration date to see if its expired
     window.setInterval(function(){
         let currentTime = new Date();
         for(let i = 1; i < tower.length; i++) {
             if(new Date(tower[i].stockRoom.expires) <= currentTime && tower[i].stockRoom.expires !== 0){
-                // console.log("Expired");
-                tower[i].stockRoom.expires = 0;
-                tower[i].stockRoom.count = 0;
+                // if(tower[i].type === 'Apartment'){
+                //     document.getElementById(tower[i].id + 'Rent').style.display = 'inherit';
+                //     // console.log("Rent us due on floor: " + i)
+                // }
+                if(tower[i].type === 'Store'){
+                    // console.log("Expired");
+                    tower[i].stockRoom.expires = 0;
+                    tower[i].stockRoom.count = 0;
 
-                //Stores the room has been stocked
-                window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
+                    //Stores the room has been stocked
+                    window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
 
-                //Adds the cost of purchased merchandise
-                let purchasedMerch = (300 * multiplier(i) );
-                // console.log(purchasedMerch);
-                wallet(purchasedMerch);
+                    //Adds the cost of purchased merchandise
+                    let purchasedMerch = (300 * multiplier(i) );
+                    // console.log(purchasedMerch);
+                    wallet(purchasedMerch);
 
-                //Sets the button up to be stocked again
-                let supplyRoom = document.getElementById(tower[i].id + "stock");
-                // console.log(tower[i].id + "stock");
-                supplyRoom.innerText = `Stock floor: $${(multiplier(i) * 250)}`;
-                supplyRoom.addEventListener ("click", function () {
-                    stockRoom(event, i);
-                });
-                supplyRoom.disabled = false;
+                    //Sets the button up to be stocked again
+                    let supplyRoom = document.getElementById(tower[i].id + "stock");
+                    // console.log(tower[i].id + "stock");
+                    supplyRoom.innerText = `Stock floor: $${(multiplier(i) * 250)}`;
+                    supplyRoom.addEventListener ("click", function () {
+                        stockRoom(event, i);
+                    });
+                    supplyRoom.disabled = false;
+                }
 
             }
         }
@@ -139,13 +148,13 @@ function Store(name, category, colors, multiplier) {
     this.stockRoom = {item: "Item", count: 0, expires: 0, multiplier: multiplier};
 }
 
-function Apartment(name,  colors) {
+function Apartment(name,  colors, expiration) {
     //Creates a new apartment in tower
     this.id = generateID();
     this.name = name;
     this.type = "Apartment";
     this.color= colors;
-    this.stockRoom = {expires: 0};
+    this.stockRoom = {expires: expiration};
     this.residents = [];
 }
 
@@ -203,7 +212,13 @@ function createNewFloor(randomness, type) {
         if (name === 'Level Name' || name === ''){
             name = getRandom('aptName')
         }
-        newFloor = new Apartment(name, color);
+        let expire = new Date();
+        //Prod
+        // expire.setHours(expire.getHours() + 24);
+        //One Minue for now for testing
+        let currentTime = Date.parse(new Date());
+        let deadline = new Date(currentTime + 2*60*1000);
+        newFloor = new Apartment(name, color, deadline);
     }
 
     // console.table(newFloor);
@@ -333,6 +348,7 @@ function displayFloor(i) {
                 </div>
                 <div class="storeItems">
                     <button onclick="toggleNav('${tower[i].id}C')">Citizens</button>
+                    <button id="${tower[i].id}Rent" onclick="rent(${i})">Collect Rent</button>
                 </div>
             </div>
             <div class="stockRoom" id="${tower[i].id}SR">
@@ -342,10 +358,7 @@ function displayFloor(i) {
             </div>
             <div class="stockRoom" id="${tower[i].id}C">
                 ${tower[i].residents.map(resident => `<div><i class="fa fa-user-alt"></i> ${resident.fname} ${resident.lname}</div>`).join('')}
-                
-               
-            </div>`
-
+            </div>`;
     }
     else if(tower[i].stockRoom.count >= 1000){
         divRoom.innerHTML = `
@@ -382,12 +395,6 @@ function displayFloor(i) {
                 <a onclick="deleteFloor(${i})" href="#" class="delete stockBtn">Delete Store</a>
             </div>`;
     }
-
-    // document.getElementById('ex1').addEventListener('click', function(e){
-    //     e.stopPropagation();
-    //     this.style.backgroundColor = 'deeppink';
-    // },false);
-
 
     //Binders
     divFloor.appendChild(divElevator);
@@ -509,10 +516,10 @@ function displayMessage(message, type) {
     document.getElementById("message").innerHTML = `<p>${message}</p>`;
 
     if(type === 'error'){
-        document.getElementById("message").style.background = 'darkred'
+        document.getElementById("message").style.background = '#D50000'
     }
     else if(type === 'success'){
-        document.getElementById("message").style.background = 'darkgreen'
+        document.getElementById("message").style.background = '#43A047'
     }
     else if(type==='dev'){
         document.getElementById("message").style.background = '#F4511E'
@@ -716,21 +723,18 @@ function devOption() {
     }
 }
 
-function rent() {
-    let citizenCount=0;
+function rent(i) {
     let rent=0;
 
-    for(let i=0; i<tower.length;i++){
-        console.log("Type: " + tower[i].type + "Level:" + i);
-        if(tower[i].type === 'Apartment'){
-            console.log(tower[i].residents);
-            for(let j=0; j<tower[i].residents.length; j++){
-                citizenCount++;
-                console.log(tower[i].residents[j]);
-            }
-        }
-    }
+    rent =+ (tower[i].residents.length * 300);
+    document.getElementById(tower[i].id + 'Rent').style.display = 'none';
+    displayMessage("Payed rent of " + rent, 'success');
 
-    rent =+ (citizenCount * 200);
+    let currentTime = Date.parse(tower[i].stockRoom.expires);
+    let deadline = new Date(currentTime + 2*60*1000);
+    tower[i].stockRoom.expires = deadline;
+    window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
+
+    // wallet(rent);
     console.log(rent);
 }
