@@ -309,3 +309,24 @@ input.stockBtn {
     font-size: 36px;
     margin-left: 50px;
 }
+
+.achievement {
+    color: darkgray;
+    background: grey;
+    padding: 10px;
+}
+
+.achievementUnlocked {
+    color: white;
+    background: orange;
+    padding: 10px;
+}
+
+
+
+#achievements{
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+}
