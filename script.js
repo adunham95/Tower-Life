@@ -178,10 +178,11 @@ function generateID() {
 
 function createNewFloor(randomness, type) {
     let newFloor;
-    let name = document.getElementById("name").value;
+    let name;
     let category;
-    let color = [document.getElementById("color").value];
+    let color;
     let floor = (tower.length);
+    let openObject;
 
     //Random Floor
     if(randomness === 'random'){
@@ -193,30 +194,41 @@ function createNewFloor(randomness, type) {
         category = document.getElementById("category").value;
     }
 
-    //If no color is selected
-    if(color === '#fff'){
-        color = [getRandom("color")];
-    }
-
     //If Store or apartment
     if (type === "Store"){
+        openObject = 'newStore';
+        name = document.getElementById("nameStore").value;
         //If the name is blank it will be the category value
-        if(name === 'Level Name' || name === ''){
+        if(name === 'Store Name' || name === ''){
             name = category;
         }
-        newFloor = new Store(name, category, color, 1 + (parseInt(floor)/10 ));
+        if(document.getElementById("colorStore").value === "fff"){
+            color = [getRandom("color")];
+        }
+        else {
+            color = [document.getElementById("colorStore").value]
+        }
+        newFloor = new Store(name, category, color, 1 + (floor)/10 );
         //Closes the create menu
     }
     else if(type === 'Apartment') {
+        openObject = 'newApt';
+        name = document.getElementById("nameApt").value;
         //If the name is blank it will be get a random name
         if (name === 'Level Name' || name === ''){
             name = getRandom('aptName')
+        }
+        if(document.getElementById("colorApt").value === "fff"){
+            color = [getRandom("color")];
+        }
+        else{
+            color = [document.getElementById("colorApt").value];
         }
         let expire = new Date();
         //Prod
         // expire.setHours(expire.getHours() + 24);
         //One Minue for now for testing
-        let currentTime = Date.parse(new Date());
+        let currentTime = new Date();
         let deadline = new Date(currentTime + 2*60*1000);
         newFloor = new Apartment(name, color, deadline);
     }
@@ -237,7 +249,8 @@ function createNewFloor(randomness, type) {
 
 
     if(purchased === true){
-        toggleNav('navExpanded');
+        toggleNav(openObject);
+        closeNav();
         displayMessage(newFloor.name + ' added', 'success');
         tower.push(newFloor);
         // console.log(tower);
@@ -283,7 +296,9 @@ function createNewPerson() {
                 // citizen.push(newPerson);
                 // window.localStorage.setItem("Tenates", JSON.stringify(citizen));
                 window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
-                displayMessage(fname + ' ' + lname + ' added', 'success')
+                displayMessage(fname + ' ' + lname + ' added', 'success');
+                closeNav();
+                toggleNav('newPerson');
             }
             render();
             break
@@ -348,7 +363,7 @@ function displayFloor(i) {
                 </div>
                 <div class="storeItems">
                     <button onclick="toggleNav('${tower[i].id}C')">Citizens</button>
-                    <button id="${tower[i].id}Rent" onclick="rent(${i})">Collect Rent</button>
+                    <!--<button id="${tower[i].id}Rent" onclick="rent(${i})">Collect Rent</button>-->
                 </div>
             </div>
             <div class="stockRoom" id="${tower[i].id}SR">
@@ -412,36 +427,36 @@ function toggleNav(item, type) {
     else{
         document.getElementById(item).style.display = "flex";
     }
-    if(type === 'store'){
-        document.getElementById('name').style.display = "inherit";
-        document.getElementById('category').style.display = "inherit";
-        document.getElementById('color').style.display = "inherit";
-        document.getElementById('fName').style.display = "none";
-        document.getElementById('lName').style.display = "none";
-        document.getElementById('newStore').style.display = "inherit";
-        document.getElementById('newApt').style.display = "none";
-        document.getElementById('newPerson').style.display = "none";
-    }
-    else if(type === 'apartment'){
-        document.getElementById('name').style.display = "inherit";
-        document.getElementById('category').style.display = "none";
-        document.getElementById('color').style.display = "inherit";
-        document.getElementById('fName').style.display = "none";
-        document.getElementById('lName').style.display = "none";
-        document.getElementById('newStore').style.display = "none";
-        document.getElementById('newApt').style.display = "inherit";
-        document.getElementById('newPerson').style.display = "none";
-    }
-    else if(type === 'person'){
-        document.getElementById('name').style.display = "none";
-        document.getElementById('category').style.display = "none";
-        document.getElementById('color').style.display = "none";
-        document.getElementById('fName').style.display = "inherit";
-        document.getElementById('lName').style.display = "inherit";
-        document.getElementById('newStore').style.display = "none";
-        document.getElementById('newApt').style.display = "none";
-        document.getElementById('newPerson').style.display = "inherit";
-    }
+    // if(type === 'store'){
+    //     document.getElementById('name').style.display = "inherit";
+    //     document.getElementById('category').style.display = "inherit";
+    //     document.getElementById('color').style.display = "inherit";
+    //     document.getElementById('fName').style.display = "none";
+    //     document.getElementById('lName').style.display = "none";
+    //     document.getElementById('newStore').style.display = "inherit";
+    //     document.getElementById('newApt').style.display = "none";
+    //     document.getElementById('newPerson').style.display = "none";
+    // }
+    // else if(type === 'apartment'){
+    //     document.getElementById('name').style.display = "inherit";
+    //     document.getElementById('category').style.display = "none";
+    //     document.getElementById('color').style.display = "inherit";
+    //     document.getElementById('fName').style.display = "none";
+    //     document.getElementById('lName').style.display = "none";
+    //     document.getElementById('newStore').style.display = "none";
+    //     document.getElementById('newApt').style.display = "inherit";
+    //     document.getElementById('newPerson').style.display = "none";
+    // }
+    // else if(type === 'person'){
+    //     document.getElementById('name').style.display = "none";
+    //     document.getElementById('category').style.display = "none";
+    //     document.getElementById('color').style.display = "none";
+    //     document.getElementById('fName').style.display = "inherit";
+    //     document.getElementById('lName').style.display = "inherit";
+    //     document.getElementById('newStore').style.display = "none";
+    //     document.getElementById('newApt').style.display = "none";
+    //     document.getElementById('newPerson').style.display = "inherit";
+    // }
 
 }
 
@@ -735,6 +750,14 @@ function rent(i) {
     tower[i].stockRoom.expires = deadline;
     window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
 
-    // wallet(rent);
+    wallet(rent);
     console.log(rent);
+}
+
+function openNav() {
+    document.getElementById("mySidenav").style.width = "100%";
+}
+
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
 }

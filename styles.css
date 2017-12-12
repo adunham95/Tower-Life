@@ -155,28 +155,27 @@ body{
     display: none;
 }
 
-.create{
+.new{
+    display: none;
     flex-direction: column;
     justify-content: space-around;
     padding: 10px;
+    transition: 0.5s;
 }
 
-.create input, select{
-    display: none;
-    margin: 5px;
+.new input, select{
     background: transparent;
+    color: white;
     padding: 5px;
-    border: 1px solid white;
-    color: white;
+    margin: 5px;
+    border: white solid;
 }
 
-#category option{
-    color: black;
+.new a {
+    margin: 5px;
+    border: 1px white solid;
 }
 
-#color option{
-    color: white;
-}
 
 #peopleMenu {
     display: flex;
@@ -249,12 +248,14 @@ input.stockBtn {
 
 .update{
     background: #43A047;
-    border: none;
 }
 
 .delete{
     background: #D50000;
-    border: none;
+}
+
+.random{
+    background: #1E88E5;
 }
 
 /*DevOptions*/
@@ -276,4 +277,35 @@ input.stockBtn {
 
 .beta{
     display: none;
+}
+
+
+.sidenav{
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #546E7A;
+    opacity: 0.95;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: grey 1px 1px 100px;
+    align-items: stretch;
+}
+
+.sidenav a {
+    padding: 10px;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
 }

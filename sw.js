@@ -1,4 +1,4 @@
-let cacheName = 'towerlife-0.8.1';
+let cacheName = 'towerlife-0.9.0';
 let filesToCache = [
     '/',
     '/index.html',
