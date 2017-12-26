@@ -22,12 +22,15 @@
 <body>
 
     <div id="mySidenav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a onclick="newTower()" href="#">Reset</a>
-        <a onclick="toggleNav('achievements', 'person')" href="#">Achievements</a>
-        <div id="achievements">
-
+        <button class="closebtn" onclick="closeNav()">&times;</button>
+        <a onclick="toggleNav('settings')" href="#">Settings</a>
+        <div id="settings">
+            <div class="setting">There are no setting now</div>
+            <!--<div class="setting">Save to cloud</div>-->
         </div>
+        <a onclick="toggleNav('achievements', 'person')" href="#">Achievements</a>
+        <div id="achievements"></div>
+        <a onclick="newTower()" href="#">Reset</a>
     </div>
 
     <!--NAV-->

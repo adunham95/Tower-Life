@@ -329,7 +329,8 @@ input.stockBtn {
 }
 
 .sidenav a {
-    padding: 10px;
+    margin: 15px 0;
+    padding: 5px 10px;
 }
 
 .sidenav .closebtn {
@@ -338,11 +339,9 @@ input.stockBtn {
     right: 25px;
     font-size: 36px;
     margin-left: 50px;
-}
-
-.achievement {
-    color: darkgray;
-    background: grey;
+    background: none;
+    border: none;
+    color: white;
     padding: 10px;
 }
 
@@ -352,11 +351,23 @@ input.stockBtn {
     padding: 10px;
 }
 
-
-
 #achievements{
     display: none;
     flex-direction: column;
     align-items: stretch;
     text-align: center;
+}
+
+#settings{
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+}
+
+.setting{
+    color: white;
+    background: grey;
+    padding: 10px;
+
 }
