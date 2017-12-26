@@ -20,6 +20,8 @@ function newTower() {
     //ReRenders the tower
     render();
 
+    window.localStorage.setItem("Achievements", "[]");
+
     document.getElementById("money").innerText = '$'+money;
     toggleNav('navExpanded');
 
@@ -49,6 +51,7 @@ function onLoad() {
 
     //Gets the tower ID
     let id = window.localStorage.getItem("TowerID");
+    let achievements = window.localStorage.getItem("Achievements");
 
     //Checks to see the is there is already a tower
     if(id === null){
@@ -58,6 +61,19 @@ function onLoad() {
         //Gets the tower from local storage and sets it to the tower length
         tower = JSON.parse(window.localStorage.getItem("TowerFloors"));
         // console.log(tower);
+    }
+    if(achievements === null){
+        window.localStorage.setItem("Achievements", "[]");
+    }
+    else {
+        achievements = JSON.parse(achievements);
+        for(let i=0; i < achievements.length; i++){
+            let achievementHTML = document.createElement("div");
+            achievementHTML.className = "achievementUnlocked";
+            achievementHTML.innerText = achievements[i].name;
+            let achievedDoc = document.getElementById('achievements');
+            achievedDoc.appendChild(achievementHTML);
+        }
     }
 
     //Dev Check
@@ -81,6 +97,9 @@ function onLoad() {
     document.getElementById("nextTower").innerHTML = "Next floor costs: $" + ( (tower.length + (tower.length/10)) * 1000);
 
     render();
+
+    //Displays Achievements
+
 
     //Checks to display beta features
     if(betaFeature === 'enabled'){
@@ -178,9 +197,9 @@ function generateID() {
 
 function createNewFloor(randomness, type) {
     let newFloor;
-    let name;
+    let name = document.getElementById("name").value;
     let category;
-    let color;
+    let color = [document.getElementById("color").value];
     let floor = (tower.length);
     let openObject;
 
@@ -194,40 +213,28 @@ function createNewFloor(randomness, type) {
         category = document.getElementById("category").value;
     }
 
+    //If no color is selected
+    if(color === '#fff'){
+        color = [getRandom("color")];
+    }
+
     //If Store or apartment
     if (type === "Store"){
-        openObject = 'newStore';
-        name = document.getElementById("nameStore").value;
         //If the name is blank it will be the category value
-        if(name === 'Store Name' || name === ''){
+        if(name === 'Level Name' || name === ''){
             name = category;
         }
-        if(document.getElementById("colorStore").value === "fff"){
-            color = [getRandom("color")];
-        }
-        else {
-            color = [document.getElementById("colorStore").value]
-        }
-        newFloor = new Store(name, category, color, 1 + (floor)/10 );
+        newFloor = new Store(name, category, color, 1 + (parseInt(floor)/10 ));
         //Closes the create menu
     }
     else if(type === 'Apartment') {
-        openObject = 'newApt';
-        name = document.getElementById("nameApt").value;
         //If the name is blank it will be get a random name
         if (name === 'Level Name' || name === ''){
             name = getRandom('aptName')
         }
-        if(document.getElementById("colorApt").value === "fff"){
-            color = [getRandom("color")];
-        }
-        else{
-            color = [document.getElementById("colorApt").value];
-        }
-        let expire = new Date();
         //Prod
         // expire.setHours(expire.getHours() + 24);
-        //One Minue for now for testing
+        //One Minute for now for testing
         let currentTime = new Date();
         let deadline = new Date(currentTime + 2*60*1000);
         newFloor = new Apartment(name, color, deadline);
@@ -249,7 +256,7 @@ function createNewFloor(randomness, type) {
 
 
     if(purchased === true){
-        toggleNav(openObject);
+        toggleNav('create');
         closeNav();
         displayMessage(newFloor.name + ' added', 'success');
         tower.push(newFloor);
@@ -258,9 +265,23 @@ function createNewFloor(randomness, type) {
         displayFloor(floor);
         //Displays the cost of the next floor
         document.getElementById("nextTower").innerHTML = "Next floor costs: $" + ( (tower.length + (tower.length/10)) * 1000);
+
+        //Check floor achievement
+        if(tower.length === 11){
+            achievement("10 Floors");
+        }
+        if(tower.length === 101){
+            achievement("100 Floors");
+        }
+
+        //Resets the selectors
+        document.getElementById("name").value = "Level Name";
+        document.getElementById("color").options[0].selected = 'selected';
+        document.getElementById("category").options[0].selected = 'selected';
+
     }
     else {
-        setTimeout(function(){ toggleNav('navExpanded') }, 3000);
+        setTimeout(function(){ toggleNav('create') }, 3000);
     }
 }
 
@@ -296,9 +317,11 @@ function createNewPerson() {
                 // citizen.push(newPerson);
                 // window.localStorage.setItem("Tenates", JSON.stringify(citizen));
                 window.localStorage.setItem("TowerFloors", JSON.stringify(tower));
+                toggleNav('create');
                 displayMessage(fname + ' ' + lname + ' added', 'success');
-                closeNav();
-                toggleNav('newPerson');
+                document.getElementById("fName").value = "First Name";
+                document.getElementById("lName").value = "Last Name";
+
             }
             render();
             break
@@ -427,36 +450,36 @@ function toggleNav(item, type) {
     else{
         document.getElementById(item).style.display = "flex";
     }
-    // if(type === 'store'){
-    //     document.getElementById('name').style.display = "inherit";
-    //     document.getElementById('category').style.display = "inherit";
-    //     document.getElementById('color').style.display = "inherit";
-    //     document.getElementById('fName').style.display = "none";
-    //     document.getElementById('lName').style.display = "none";
-    //     document.getElementById('newStore').style.display = "inherit";
-    //     document.getElementById('newApt').style.display = "none";
-    //     document.getElementById('newPerson').style.display = "none";
-    // }
-    // else if(type === 'apartment'){
-    //     document.getElementById('name').style.display = "inherit";
-    //     document.getElementById('category').style.display = "none";
-    //     document.getElementById('color').style.display = "inherit";
-    //     document.getElementById('fName').style.display = "none";
-    //     document.getElementById('lName').style.display = "none";
-    //     document.getElementById('newStore').style.display = "none";
-    //     document.getElementById('newApt').style.display = "inherit";
-    //     document.getElementById('newPerson').style.display = "none";
-    // }
-    // else if(type === 'person'){
-    //     document.getElementById('name').style.display = "none";
-    //     document.getElementById('category').style.display = "none";
-    //     document.getElementById('color').style.display = "none";
-    //     document.getElementById('fName').style.display = "inherit";
-    //     document.getElementById('lName').style.display = "inherit";
-    //     document.getElementById('newStore').style.display = "none";
-    //     document.getElementById('newApt').style.display = "none";
-    //     document.getElementById('newPerson').style.display = "inherit";
-    // }
+    if(type === 'store'){
+        document.getElementById('name').style.display = "inherit";
+        document.getElementById('category').style.display = "inherit";
+        document.getElementById('color').style.display = "inherit";
+        document.getElementById('fName').style.display = "none";
+        document.getElementById('lName').style.display = "none";
+        document.getElementById('newStore').style.display = "inherit";
+        document.getElementById('newApt').style.display = "none";
+        document.getElementById('newPerson').style.display = "none";
+    }
+    else if(type === 'apartment'){
+        document.getElementById('name').style.display = "inherit";
+        document.getElementById('category').style.display = "none";
+        document.getElementById('color').style.display = "inherit";
+        document.getElementById('fName').style.display = "none";
+        document.getElementById('lName').style.display = "none";
+        document.getElementById('newStore').style.display = "none";
+        document.getElementById('newApt').style.display = "inherit";
+        document.getElementById('newPerson').style.display = "none";
+    }
+    else if(type === 'person'){
+        document.getElementById('name').style.display = "none";
+        document.getElementById('category').style.display = "none";
+        document.getElementById('color').style.display = "none";
+        document.getElementById('fName').style.display = "inherit";
+        document.getElementById('lName').style.display = "inherit";
+        document.getElementById('newStore').style.display = "none";
+        document.getElementById('newApt').style.display = "none";
+        document.getElementById('newPerson').style.display = "inherit";
+    }
 
 }
 
@@ -512,6 +535,10 @@ function wallet(amount) {
         return false
     }
     else{
+        if(money < 1000000 && newMoney > 1000000){
+            achievement("Millionaire")
+        }
+
         //If the user has enough money the money is deducted fom there account
         money = parseInt(newMoney);
         // console.log("Updated wallet to " + money);
@@ -538,6 +565,9 @@ function displayMessage(message, type) {
     }
     else if(type==='dev'){
         document.getElementById("message").style.background = '#F4511E'
+    }
+    else if(type==='achievement'){
+        document.getElementById("message").style.background = '#DAA520'
     }
 
     //Hides the banner after 3 seconds
@@ -642,6 +672,11 @@ function devOption() {
             let e =document.getElementsByClassName('nav')[0];
             e.style.backgroundColor ='#607D8B';
         }
+    }
+    else if(option.startsWith('achievement')){
+        let optionArray = option.split("-");
+        displayMessage('Achievement ' + optionArray[1] + ' unlocked', 'achievement');
+
     }
     //Beta features
     else if(option.startsWith('beta')){
@@ -760,4 +795,22 @@ function openNav() {
 
 function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
+}
+
+function achievement(name) {
+    console.log(JSON.parse(window.localStorage.getItem("Achievements")));
+    let achievements = JSON.parse(window.localStorage.getItem("Achievements"));
+    let newAchievement;
+
+    newAchievement = {name: name, unlocked: true};
+    achievements.push(newAchievement);
+
+    let achievementHTML = document.createElement("div");
+    achievementHTML.className = "achievementUnlocked";
+    achievementHTML.innerText = newAchievement.name;
+    let achievedDoc = document.getElementById('achievements');
+    achievedDoc.appendChild(achievementHTML);
+
+    window.localStorage.setItem("Achievements", JSON.stringify(achievements));
+    displayMessage('Achievement ' + name + ' unlocked', 'achievement');
 }

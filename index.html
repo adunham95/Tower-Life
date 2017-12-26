@@ -23,114 +23,11 @@
 
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a onclick="toggleNav('newStore', 'store')" href="#">Store</a>
-        <div id="newStore" class="new">
-            <input id="nameStore" type="text" value="Store Name">
-
-            <select id="category">
-                <option value="Car Dealership">Car Dealership</option>
-                <option value="Grocery Store">Grocery Store</option>
-                <option value="Jewellery Store">Jewellery Store</option>
-                <option value="Flower Store">Flower Store</option>
-                <option value="Beauty Salon">Beauty Salon</option>
-                <option value="Butcher">Butcher</option>
-                <option value="Toy Store">Toy Store</option>
-                <option value="Music Store">Music Store</option>
-                <option value="Clothes Store">Clothes Store</option>
-                <option value="Book Store">Book Store</option>
-                <option value="Tech Store">Tech Store</option>
-                <option value="Sports Store">Sports Store</option>
-                <option value="E-Store">E-Store</option>
-                <option value="Dollar Store">Dollar Store</option>
-                <option value="Brand Store">Brand Store</option>
-            </select>
-
-            <select id="colorStore">
-                <option value="#fff" style="color:black">Select a color</option>
-                <option value="#8B0000" style="background-color: #8B0000">Dark Red</option>
-                <option value="#F44336" style="background-color: #F44336">Red</option>
-                <option value="#E91E63" style="background-color: #E91E63">Pink</option>
-                <option value="#9C27B0" style="background-color: #9C27B0">Purple</option>
-                <option value="#673AB7" style="background-color: #673AB7">Deep Purple</option>
-                <option value="#3F51B5" style="background-color: #3F51B5">Indigo</option>
-                <option value="#2196F3" style="background-color: #2196F3">Blue</option>
-                <option value="#03A9F4" style="background-color: #03A9F4">Light Blue</option>
-                <option value="#00BCD4" style="background-color: #00BCD4">Cyan</option>
-                <option value="#009688" style="background-color: #009688">Teal</option>
-                <option value="#4CAF50" style="background-color: #4CAF50">Green</option>
-                <option value="#8BC34A" style="background-color: #8BC34A">Light Green</option>
-                <option value="#CDDC39" style="background-color: #CDDC39">Lime</option>
-                <option value="#FFEB3B" style="background-color: #FFEB3B">Yellow</option>
-                <option value="#FFC107" style="background-color: #FFC107">Amber</option>
-                <option value="#FF9800" style="background-color: #FF9800">Orange</option>
-                <option value="#FF5722" style="background-color: #FF5722">Deep Orange</option>
-                <option value="#795548" style="background-color: #795548">Brown</option>
-                <option value="#9E9E9E" style="background-color: #9E9E9E">Grey</option>
-                <option value="#000000" style="background-color: #000000">Black</option>
-                <option value="linear-gradient(to right, #03001e, #7303c0 50%, #ec38bc);" style="background:#9E9E9E">Argon</option>
-                <option value="linear-gradient(to right, #673AB7, #673AB7 10%, #FF5722 90%, #FF5722);" style="background:#FF5722">Tiger</option>
-                <!--<option value="#FFFFFF" style="background-color: #FFFFFF">White</option>-->
-            </select>
-
-            <div style="display: flex; justify-content: space-between">
-                <a onclick="createNewFloor('random', 'Store')" href="#" class="random">Random Store</a>
-                <div></div>
-                <a onclick="createNewFloor('custom', 'Store')" href="#" class="update">Create New</a>
-            </div>
-        </div>
-        <a onclick="toggleNav('newApt', 'apartment')" href="#">Apartment</a>
-        <div id="newApt" class="new">
-            <input id="nameApt" type="text" value="Apt Name">
-
-            <select id="colorApt">
-                <option value="#fff" style="color:black">Select a color</option>
-                <option value="#8B0000" style="background-color: #8B0000">Dark Red</option>
-                <option value="#F44336" style="background-color: #F44336">Red</option>
-                <option value="#E91E63" style="background-color: #E91E63">Pink</option>
-                <option value="#9C27B0" style="background-color: #9C27B0">Purple</option>
-                <option value="#673AB7" style="background-color: #673AB7">Deep Purple</option>
-                <option value="#3F51B5" style="background-color: #3F51B5">Indigo</option>
-                <option value="#2196F3" style="background-color: #2196F3">Blue</option>
-                <option value="#03A9F4" style="background-color: #03A9F4">Light Blue</option>
-                <option value="#00BCD4" style="background-color: #00BCD4">Cyan</option>
-                <option value="#009688" style="background-color: #009688">Teal</option>
-                <option value="#4CAF50" style="background-color: #4CAF50">Green</option>
-                <option value="#8BC34A" style="background-color: #8BC34A">Light Green</option>
-                <option value="#CDDC39" style="background-color: #CDDC39">Lime</option>
-                <option value="#FFEB3B" style="background-color: #FFEB3B">Yellow</option>
-                <option value="#FFC107" style="background-color: #FFC107">Amber</option>
-                <option value="#FF9800" style="background-color: #FF9800">Orange</option>
-                <option value="#FF5722" style="background-color: #FF5722">Deep Orange</option>
-                <option value="#795548" style="background-color: #795548">Brown</option>
-                <option value="#9E9E9E" style="background-color: #9E9E9E">Grey</option>
-                <option value="#000000" style="background-color: #000000">Black</option>
-                <option value="linear-gradient(to right, #03001e, #7303c0 50%, #ec38bc);" style="background:#9E9E9E">Argon</option>
-                <option value="linear-gradient(to right, #673AB7, #673AB7 10%, #FF5722 90%, #FF5722);" style="background:#FF5722">Tiger</option>
-                <!--<option value="#FFFFFF" style="background-color: #FFFFFF">White</option>-->
-            </select>
-
-            <div  style="display: flex; justify-content: space-between">
-                <a onclick="createNewFloor('random', 'Apartment')" href="#" class="random">Random Apartment</a>
-                <div></div>
-                <a onclick="createNewFloor('custom', 'Apartment')" href="#" class="update">Create New</a>
-            </div>
-        </div>
-        <a onclick="toggleNav('newPerson', 'person')" href="#">Citizens</a>
-        <div id="newPerson" class="new">
-            <input id="fName" type="text" value="First Name">
-            <input id="lName" type="text" value="Last Name">
-            <div  style="display: flex; justify-content: space-between">
-                <a onclick="createNewPerson('random')" href="#" class="random">Random Person</a>
-                <div></div>
-                <a onclick="createNewPerson('custom')" href="#" class="update">Create New</a>
-            </div>
-        </div>
         <a onclick="newTower()" href="#">Reset</a>
         <a onclick="toggleNav('achievements', 'person')" href="#">Achievements</a>
-        <!--<div id="achievements">-->
-            <!--<div class="achievementUnlocked">10 Floors</div>-->
-            <!--<div class="achievement">100 Floors</div>-->
-        <!--</div>-->
+        <div id="achievements">
+
+        </div>
     </div>
 
     <!--NAV-->
@@ -139,6 +36,84 @@
             <button onclick="openNav()" class="btn"><i class="fa fa-bars"></i></button>
             <p id="brand" onclick="cheater()">Tower Life</p>
             <p id="money" ></p>
+        </div>
+        <div id="navExpanded">
+            <div id="storeMenu">
+                <a onclick="toggleNav('create', 'store')" href="#"><i class="fa fa-shopping-cart"></i> Store</a>
+                <a onclick="toggleNav('create', 'apartment')" href="#"><i class="fa fa-university"></i> Apartment</a>
+                <a onclick="toggleNav('create', 'person')" href="#"><i class="fa fa-users"></i> Citizens</a>
+            </div>
+
+            <div id="create" class="create">
+                <input id="name" type="text" value="Level Name">
+
+                <select id="category">
+                    <option value="Car Dealership">Car Dealership</option>
+                    <option value="Grocery Store">Grocery Store</option>
+                    <option value="Jewellery Store">Jewellery Store</option>
+                    <option value="Flower Store">Flower Store</option>
+                    <option value="Beauty Salon">Beauty Salon</option>
+                    <option value="Butcher">Butcher</option>
+                    <option value="Toy Store">Toy Store</option>
+                    <option value="Music Store">Music Store</option>
+                    <option value="Clothes Store">Clothes Store</option>
+                    <option value="Book Store">Book Store</option>
+                    <option value="Tech Store">Tech Store</option>
+                    <option value="Sports Store">Sports Store</option>
+                    <option value="E-Store">E-Store</option>
+                    <option value="Dollar Store">Dollar Store</option>
+                    <option value="Brand Store">Brand Store</option>
+                </select>
+
+                <select id="color">
+                    <option value="#fff" style="color:black">Select a color</option>
+                    <option value="#8B0000" style="background-color: #8B0000">Dark Red</option>
+                    <option value="#F44336" style="background-color: #F44336">Red</option>
+                    <option value="#E91E63" style="background-color: #E91E63">Pink</option>
+                    <option value="#9C27B0" style="background-color: #9C27B0">Purple</option>
+                    <option value="#673AB7" style="background-color: #673AB7">Deep Purple</option>
+                    <option value="#3F51B5" style="background-color: #3F51B5">Indigo</option>
+                    <option value="#2196F3" style="background-color: #2196F3">Blue</option>
+                    <option value="#03A9F4" style="background-color: #03A9F4">Light Blue</option>
+                    <option value="#00BCD4" style="background-color: #00BCD4">Cyan</option>
+                    <option value="#009688" style="background-color: #009688">Teal</option>
+                    <option value="#4CAF50" style="background-color: #4CAF50">Green</option>
+                    <option value="#8BC34A" style="background-color: #8BC34A">Light Green</option>
+                    <option value="#CDDC39" style="background-color: #CDDC39">Lime</option>
+                    <option value="#FFEB3B" style="background-color: #FFEB3B">Yellow</option>
+                    <option value="#FFC107" style="background-color: #FFC107">Amber</option>
+                    <option value="#FF9800" style="background-color: #FF9800">Orange</option>
+                    <option value="#FF5722" style="background-color: #FF5722">Deep Orange</option>
+                    <option value="#795548" style="background-color: #795548">Brown</option>
+                    <option value="#9E9E9E" style="background-color: #9E9E9E">Grey</option>
+                    <option value="#000000" style="background-color: #000000">Black</option>
+                    <option value="linear-gradient(to right, #03001e, #7303c0 50%, #ec38bc);" style="background:#9E9E9E">Argon</option>
+                    <option value="linear-gradient(to right, #673AB7, #673AB7 10%, #FF5722 90%, #FF5722);" style="background:#FF5722">Tiger</option>
+                    <!--<option value="#FFFFFF" style="background-color: #FFFFFF">White</option>-->
+                </select>
+
+                <input id="fName" type="text" value="First Name">
+                <input id="lName" type="text" value="Last Name">
+
+                <div id="newStore" style="display: none; justify-content: space-between">
+                    <a onclick="createNewFloor('random', 'Store')" href="#" >Random Store</a>
+                    <div></div>
+                    <a onclick="createNewFloor('custom', 'Store')" href="#" >Create New</a>
+                </div>
+
+                <div id="newApt" style="display: none; justify-content: space-between">
+                    <a onclick="createNewFloor('random', 'Apartment')" href="#" >Random Apartment</a>
+                    <div></div>
+                    <a onclick="createNewFloor('custom', 'Apartment')" href="#" >Create New</a>
+                </div>
+
+                <div id="newPerson" style="display: none; justify-content: space-between">
+                    <a onclick="createNewPerson('random')" href="#" >Random Person</a>
+                    <div></div>
+                    <a onclick="createNewPerson('custom')" href="#" >Create New</a>
+                </div>
+            </div>
+
         </div>
         <div id="message"></div>
     </div>
